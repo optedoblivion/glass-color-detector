@@ -10,6 +10,9 @@ import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 
 public class ColorDetectorImmersionCard extends Activity {
 
+    // Members
+    private ColorNameCache mColorNameCacheInstance = ColorNameCache.getInstance();
+
     // Views
     private View mViewCameraOverlayMockup = null;
     private TextView mTvColorName = null;
@@ -21,14 +24,34 @@ public class ColorDetectorImmersionCard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Setup the views
         mViewCameraOverlayMockup = findViewById(R.id.view_camera_preview_mock);
         mTvColorName = (TextView) findViewById(R.id.tv_color_name);
         mViewOverlay = findViewById(R.id.view_overlay);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
+        // Execute the AsyncTask and see if the ColorNameCache needs to be initialized
         (new CacheInitTask()).execute();
     }
 
+    /**
+     * Helper method to get the name of the color based on the passed RGB values.
+     * This will set it to the {@link android.widget.TextView}
+     * @param r
+     * @param g
+     * @param b
+     */
+    private void setColorName(int r, int g, int b) {
+        if (mColorNameCacheInstance != null && mColorNameCacheInstance.isInitialized()) {
+            String colorName = mColorNameCacheInstance.getColorName(r, g, b);
+            mTvColorName.setText(colorName);
+            mTvColorName.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * AsyncTask to initialize the color cache in case it hasn't been initialized yet.
+     */
     private class CacheInitTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override
@@ -40,14 +63,15 @@ public class ColorDetectorImmersionCard extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            return ColorNameCache.getInstance().init();
+            return mColorNameCacheInstance.init();
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            mTvColorName.setVisibility(View.VISIBLE);
             mViewOverlay.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.GONE);
+
+            setColorName(0xFF, 0x00, 0xFF);
         }
 
     }

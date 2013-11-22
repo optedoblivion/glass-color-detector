@@ -22,7 +22,7 @@
         android:layout_marginBottom="20dp"
         android:textSize="24dp"
         android:textColor="#000"
-        android:text="Yellow"
+        android:text="Color name"
         android:visibility="visible"/>
 
     <View
