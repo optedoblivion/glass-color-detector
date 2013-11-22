@@ -1,12 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ColorDetectorImmersionCard">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ColorDetectorImmersionCard">
 
-    <View
-        android:id="@+id/view_camera_preview_mock"
+    <com.holoyolostudios.colorblind.detector.camera.view.PreviewFrameWidget
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#0000ff"
@@ -28,7 +27,7 @@
         android:layout_marginBottom="@dimen/color_text_bottom_margin"
         style="@style/ColorDetector.Color.Text"
         android:text="@string/sample_color"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
     <View
         android:id="@+id/view_overlay"
