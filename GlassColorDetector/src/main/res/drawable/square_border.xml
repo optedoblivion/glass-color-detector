@@ -4,13 +4,16 @@
        android:shape="rectangle">
 
     <corners
-        android:radius="1dp"
+        android:radius="0dp"
         android:topRightRadius="0dp"
         android:bottomRightRadius="0dp"
-        android:bottomLeftRadius="0dp"/>
+        android:bottomLeftRadius="0dp"
+        android:topLeftRadius="0dp"/>
 
     <stroke
         android:width="1dp"
+        android:dashGap="1dp"
+        android:dashWidth="1dp"
         android:color="@android:color/white"/>
 
 </shape>

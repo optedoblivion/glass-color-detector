@@ -37,7 +37,7 @@ public class CameraGLRenderer implements GLSurfaceView.Renderer, SurfaceTexture.
 
     // Flags
     private boolean mIsPaused = false;
-    private boolean mIsPortrait = true;
+    private boolean mIsPortrait = false;
 
     // Matrices
     private final float[] mProjMatrix = new float[16];
@@ -172,8 +172,8 @@ public class CameraGLRenderer implements GLSurfaceView.Renderer, SurfaceTexture.
             Matrix.multiplyMM(mMTX, 0, mProjMatrix, 0, mVMatrix, 0);
             if (angle != 0) {
                 // Set rotation
-                Matrix.setRotateM(mRotationMatrix, 0, angle, 0, 0, -1.0f);
-                Matrix.multiplyMM(mMTX, 0, mRotationMatrix, 0, mVMatrix, 0);
+//                Matrix.setRotateM(mRotationMatrix, 0, angle, 0, 0, -1.0f);
+//                Matrix.multiplyMM(mMTX, 0, mRotationMatrix, 0, mVMatrix, 0);
             }
 
             mPreviewShape.draw(mMTX);

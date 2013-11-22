@@ -5,11 +5,10 @@
                 android:layout_height="match_parent"
                 tools:context=".ColorDetectorImmersionCard">
 
-    <com.holoyolostudios.colorblind.detector.camera.view.PreviewFrameWidget
+    <include
+        layout="@layout/widget_camera_preview_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#0000ff"
-        android:visibility="visible"/>
+        android:layout_height="match_parent"/>
 
     <View
         android:id="@+id/view_color_viewport"

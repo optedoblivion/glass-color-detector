@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.holoyolostudios.colorblind.detector.camera.CameraController;
+import com.holoyolostudios.colorblind.detector.camera.view.PreviewFrameWidget;
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
+
+import java.io.IOException;
 
 /**
  * Color Detector Activity
@@ -16,11 +21,13 @@ public class ColorDetectorActivity extends Activity {
 
     // Members
     private ColorNameCache mColorNameCacheInstance = ColorNameCache.getInstance();
+    private CameraController mCameraController = null;
 
     // Views
     private TextView mTvColorName = null;
     private View mViewOverlay = null;
     private ProgressBar mProgressBar = null;
+    private PreviewFrameWidget mPreviewFrameWidget = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +44,41 @@ public class ColorDetectorActivity extends Activity {
         mTvColorName = (TextView) findViewById(R.id.tv_color_name);
         mViewOverlay = findViewById(R.id.view_overlay);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        mPreviewFrameWidget = (PreviewFrameWidget) findViewById(R.id.pfl_camera_preview);
+        mCameraController = ColorDetectorApplication.getCameraController();
+        mCameraController.getCameraAccessor().getCurrentCamera().setIsPortrait(false);
+        mPreviewFrameWidget.setCamera(mCameraController.getCameraAccessor().getRearFacingCamera());
+        mPreviewFrameWidget.setIsPortrait(false);
+        try {
+            mCameraController.getCameraAccessor().getCurrentCamera().startPreview();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // Execute the AsyncTask and see if the ColorNameCache needs to be initialized
         (new CacheInitTask()).execute();
+    }
+
+    public void onResume() {
+        super.onResume();
+        mPreviewFrameWidget.onResume();
+        mCameraController.onResume();
+    }
+
+    public void onPause() {
+        mCameraController.onPause();
+        mPreviewFrameWidget.onPause();
+        super.onPause();
+    }
+
+    public void onDestroy() {
+        mCameraController.shutdown();
+        super.onDestroy();
     }
 
     /**
      * Helper method to get the name of the color based on the passed RGB values.
      * This will set it to the {@link android.widget.TextView}
+     *
      * @param r {@link int}
      * @param g {@link int}
      * @param b {@link int}

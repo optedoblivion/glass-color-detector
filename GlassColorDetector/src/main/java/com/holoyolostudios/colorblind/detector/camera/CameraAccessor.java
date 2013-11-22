@@ -224,13 +224,15 @@ import java.lang.ref.WeakReference;
     /**
      * Get the current camera reference
      *
-     * @return {@link com.holoyolostudios.holocam.camera.base.BaseCamera}
      */
     /* package */
     // [TODO][MSB]: Remove public when you can!
     public final BaseCamera getCurrentCamera() {
-        return mFrontFacingCamera;
-//        return mCurrentCamera;
+        return mCurrentCamera;
+    }
+
+    public final BaseCamera getRearFacingCamera() {
+        return mRearFacingCamera;
     }
 
     /**

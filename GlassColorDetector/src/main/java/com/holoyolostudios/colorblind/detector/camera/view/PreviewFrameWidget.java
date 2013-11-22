@@ -33,7 +33,6 @@ public class PreviewFrameWidget extends RelativeLayout {
 
     // Aspect Ratios
     public static final double ASPECT_RATIO_16_9 = 16.0 / 9.0;
-    public static final double ASPECT_RATIO_4_3 = 4.0 / 3.0;
 
     // Members
     private Context mContext = null;
@@ -43,7 +42,7 @@ public class PreviewFrameWidget extends RelativeLayout {
     private OnTouchListener mOnTouchListener = null;
 
     // Default to 16:9 as per specifications
-    private double mAspectRatio = ASPECT_RATIO_4_3;
+    private double mAspectRatio = ASPECT_RATIO_16_9;
 
     // Views
     private FrameLayout mPreviewFrame = null;
@@ -51,7 +50,7 @@ public class PreviewFrameWidget extends RelativeLayout {
     private View mTouchControllerView = null;
 
     // Flags
-    private boolean mIsPortrait = true;
+    private boolean mIsPortrait = false;
 
     /**
      * Constructor
@@ -94,7 +93,7 @@ public class PreviewFrameWidget extends RelativeLayout {
         }
         mPreviewFrame = (FrameLayout) findViewById(R.id.grp_camera_preview_frame);
         mTouchControllerView = findViewById(R.id.grp_touch_controller);
-        setAspectRatio(ASPECT_RATIO_4_3);
+        setAspectRatio(ASPECT_RATIO_16_9);
         setSurfaceView();
     }
 
@@ -144,11 +143,7 @@ public class PreviewFrameWidget extends RelativeLayout {
         if (ratio <= 0.0) {
             Log
                     .e("PreviewFrameWidget", "Invalid ratio '" + ratio + "'. Defaulting to 4:3 if portrait, 16:9 is landscape");
-            if (mIsPortrait) {
-                ratio = ASPECT_RATIO_4_3;
-            } else {
-                ratio = ASPECT_RATIO_16_9;
-            }
+            ratio = ASPECT_RATIO_16_9;
         }
 
         // Check for portrait

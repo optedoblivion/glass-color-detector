@@ -72,9 +72,9 @@ public class BaseCamera {
     // Display
     public static final double ASPECT_TOLERANCE = 0.05f;
     public static final int PORTRAIT_DEFAULT_WIDTH = 640;
-    public static final int PORTRAIT_DEFAULT_HEIGHT = 480;
-    public static final int LANDSCAPE_DEFAULT_WIDTH = 1280;
-    public static final int LANDSCAPE_DEFAULT_HEIGHT = 720;
+    public static final int PORTRAIT_DEFAULT_HEIGHT = 360;
+    public static final int LANDSCAPE_DEFAULT_WIDTH = 640;
+    public static final int LANDSCAPE_DEFAULT_HEIGHT = 360;
 
     // Members
     private CameraInfo mCameraInfo = null;
@@ -89,7 +89,7 @@ public class BaseCamera {
 
     // Flags
     private boolean mIsOpen = false;
-    private boolean mIsPortrait = true;
+    private boolean mIsPortrait = false;
     private boolean mIsPreviewing = false;
 
     /**
@@ -174,6 +174,7 @@ public class BaseCamera {
             return ret;
         }
         mCameraDevice = Camera.open(mCameraId);
+        Log.i("HOLOCAM_", "mCameraDevice: " + mCameraDevice);
         if (mCameraDevice == null) {
             ret = false;
         } else {
@@ -381,6 +382,7 @@ public class BaseCamera {
     public boolean startPreview() throws IOException {
         boolean ret = false;
         String log = "Starting preview...";
+        open();
         if (mCameraDevice != null && !mIsPreviewing) {
             if (!mIsOpen) {
                 if (!open()) {

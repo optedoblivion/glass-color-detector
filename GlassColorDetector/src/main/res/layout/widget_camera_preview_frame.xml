@@ -4,7 +4,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Main wrapper -->
-    <com.holoyolostudios.holocam.camera.base.view.widget.PreviewFrameWidget
+    <com.holoyolostudios.colorblind.detector.camera.view.PreviewFrameWidget
         android:id="@+id/pfl_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,26 +19,11 @@
 
         </FrameLayout>
 
-        <com.holoyolostudios.holocam.camera.hud.RuleOfThirdsWidget
-            android:id="@+id/grp_rule_of_thirds"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"/>
-
         <View
             android:id="@+id/grp_touch_controller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <!-- Camera HUD controls -->
-        <com.holoyolostudios.holocam.camera.hud.view.HudView
-            android:id="@+id/grp_hud_view"
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:layout_centerInParent="true"/>
-
-    </com.holoyolostudios.holocam.camera.base.view.widget.PreviewFrameWidget>
+    </com.holoyolostudios.colorblind.detector.camera.view.PreviewFrameWidget>
 
 </merge>
