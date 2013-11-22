@@ -16,11 +16,14 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ColorDetectorImmersionCard"
+            android:name=".ColorDetectorActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action
-                    android:name="com.google.android.glass.action.VOICE_TRIGGER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER"/>
             </intent-filter>
             <meta-data
                 android:name="com.google.android.glass.VoiceTrigger"

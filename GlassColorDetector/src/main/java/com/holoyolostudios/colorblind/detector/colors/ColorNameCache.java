@@ -4,6 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/**
+ * ColorNameCache singleton
+ */
 public class ColorNameCache {
 
     // Constants
@@ -18,9 +21,14 @@ public class ColorNameCache {
      * Private constructor
      */
     private ColorNameCache() {
-
     }
 
+    /**
+     * Create a new instance of {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}.<br/>
+     * Throws an {@link java.lang.IllegalStateException} if an instance has already been initialized.
+     *
+     * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
+     */
     public static ColorNameCache createInstance() {
         if (mInstance != null) {
             throw new IllegalStateException("An instance has already been created.");
@@ -29,6 +37,12 @@ public class ColorNameCache {
         return mInstance;
     }
 
+    /**
+     * Get an existing {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance.
+     * Throws an {@link java.lang.IllegalStateException} if an instance hasn't been created yet.
+     *
+     * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
+     */
     public static ColorNameCache getInstance() {
         if (mInstance != null) {
             return mInstance;
@@ -37,21 +51,67 @@ public class ColorNameCache {
         }
     }
 
+    /**
+     * Destroy the {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance
+     */
     public void destroy() {
         mInitialized = false;
         mInstance = null;
     }
 
+    /**
+     * Check whether or not the {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance
+     * has been initialized.
+     *
+     * @return {@link boolean}
+     */
     public boolean isInitialized() {
         return mInitialized;
     }
 
+    /**
+     * Get the name of a color by passing the RGB values as the argument.
+     *
+     * @param r {@link int}
+     * @param g {@link int}
+     * @param b {@link int}
+     * @return {@link String}
+     */
+    public String getColorName(int r, int g, int b) {
+        if (!mInitialized) {
+            throw new IllegalStateException("This instance has not been initialized yet.");
+        }
+
+        ColorName closestMatch = null;
+        int minMSE = Integer.MAX_VALUE;
+        int mse;
+        for (ColorName c : mColorList) {
+            mse = c.computeMSE(r, g, b);
+            if (mse < minMSE) {
+                minMSE = mse;
+                closestMatch = c;
+            }
+        }
+
+        if (closestMatch != null) {
+            return closestMatch.getName();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Initialize this ColorNameCache. If it was already initialized, it will simply return false;
+     *
+     * @return {@link boolean}
+     */
     public boolean init() {
         if (mInitialized) {
             Log.d(LOG_TAG, "The ColorNameCache has already been initialized");
-            return mInitialized;
+            return false;
         }
 
+        // Add all the colors to the list
         mColorList.add(new ColorName("Alice Blue", 0xF0, 0xF8, 0xFF));
         mColorList.add(new ColorName("Antique White", 0xFA, 0xEB, 0xD7));
         mColorList.add(new ColorName("Aqua", 0x00, 0xFF, 0xFF));
@@ -194,62 +254,92 @@ public class ColorNameCache {
         mColorList.add(new ColorName("Yellow Green", 0x9A, 0xCD, 0x32));
 
         mInitialized = true;
-        return mInitialized;
+        return true;
     }
 
-    public String getColorName(int r, int g, int b) {
-        if (!mInitialized) {
-            throw new IllegalStateException("This instance has not been initialized yet.");
-        }
+    /**
+     * ColorName object to link RGB colors to a name
+     */
+    private class ColorName {
 
-        ColorName closestMatch = null;
-        int minMSE = Integer.MAX_VALUE;
-        int mse;
-        for (ColorName c : mColorList) {
-            mse = c.computeMSE(r, g, b);
-            if (mse < minMSE) {
-                minMSE = mse;
-                closestMatch = c;
-            }
-        }
-
-        if (closestMatch != null) {
-            return closestMatch.getName();
-        } else {
-            return null;
-        }
-    }
-
-    public class ColorName {
+        // Members
         public int r, g, b;
-        public String name;
+        public String mColorName;
 
+        /**
+         * Constructor
+         *
+         * @param name {@link String}
+         * @param r {@link int}
+         * @param g {@link int}
+         * @param b {@link int}
+         */
         public ColorName(String name, int r, int g, int b) {
+            this.mColorName = name;
             this.r = r;
             this.g = g;
             this.b = b;
-            this.name = name;
         }
 
-        public int computeMSE(int pixR, int pixG, int pixB) {
-            return (((pixR - r) * (pixR - r) + (pixG - g) * (pixG - g) + (pixB - b) * (pixB - b)) / 3);
+        /**
+         * Get the name of the color
+         *
+         * @return {@link String}
+         */
+        public String getName() {
+            return mColorName;
         }
 
+        /**
+         * Get the RED value of this color.
+         *
+         * @return {@link int}
+         */
         public int getR() {
             return r;
         }
 
+        /**
+         * Get the GREEN value of this color.
+         *
+         * @return {@link int}
+         */
         public int getG() {
             return g;
         }
 
+        /**
+         * Get the BLUE value of this color.
+         *
+         * @return {@link int}
+         */
         public int getB() {
             return b;
         }
 
-        public String getName() {
-            return name;
+        /**
+         * Compute the color to get the proximity to the RGB color passed in the argument
+         *
+         * @param pixR {@link int}
+         * @param pixG {@link int}
+         * @param pixB {@link int}
+         *
+         * @return {@link int} proximity
+         */
+        public int computeMSE(int pixR, int pixG, int pixB) {
+            return (((pixR - r) * (pixR - r) + (pixG - g) * (pixG - g) + (pixB - b) * (pixB - b)) / 3);
         }
+
+        /**
+         * Compute the color to get the proximity to the RGB color passed in the argument
+         *
+         * @param color {@link ColorName}
+         * @return {@link int} proximity
+         */
+        public int computeMSE(ColorName color) {
+            return computeMSE(color.getR(), color.getG(), color.getB());
+        }
+
     }
 
 }

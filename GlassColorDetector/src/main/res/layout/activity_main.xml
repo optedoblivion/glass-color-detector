@@ -9,28 +9,28 @@
         android:id="@+id/view_camera_preview_mock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffff00"
+        android:background="#0000ff"
         android:visibility="visible"/>
 
-    <!-- TODO: make this textview have a white border as well -->
+    <!-- TODO: add an overlay to show a circle in the middle... -->
+
     <TextView
         android:id="@+id/tv_color_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:textSize="24dp"
-        android:textColor="#000"
-        android:text="Color name"
+        android:layout_marginBottom="@dimen/color_text_bottom_margin"
+        style="@style/ColorDetector.Color.Text"
+        android:text="@string/sample_color"
         android:visibility="visible"/>
 
     <View
         android:id="@+id/view_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99cccccc"
-        android:visibility="visible"/>
+        android:background="@color/transparent_gray"
+        android:visibility="invisible"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

@@ -3,5 +3,6 @@
 
     <string name="app_name">Color Detector</string>
     <string name="glass_voice_trigger">Open color detector</string>
+    <string name="sample_color">Color</string>
 
 </resources>

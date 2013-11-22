@@ -1,5 +1,6 @@
 package com.holoyolostudios.colorblind.detector;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,7 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 
-public class ColorDetectorImmersionCard extends Activity {
+/**
+ * Color Detector Activity
+ */
+public class ColorDetectorActivity extends Activity {
 
     // Members
     private ColorNameCache mColorNameCacheInstance = ColorNameCache.getInstance();
@@ -24,6 +28,12 @@ public class ColorDetectorImmersionCard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // In case we are running on a device that has an ActionBar, hide it
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         // Setup the views
         mViewCameraOverlayMockup = findViewById(R.id.view_camera_preview_mock);
         mTvColorName = (TextView) findViewById(R.id.tv_color_name);
@@ -37,9 +47,9 @@ public class ColorDetectorImmersionCard extends Activity {
     /**
      * Helper method to get the name of the color based on the passed RGB values.
      * This will set it to the {@link android.widget.TextView}
-     * @param r
-     * @param g
-     * @param b
+     * @param r {@link int}
+     * @param g {@link int}
+     * @param b {@link int}
      */
     private void setColorName(int r, int g, int b) {
         if (mColorNameCacheInstance != null && mColorNameCacheInstance.isInitialized()) {
