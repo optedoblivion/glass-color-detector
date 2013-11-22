@@ -12,7 +12,12 @@
         android:background="#0000ff"
         android:visibility="visible"/>
 
-    <!-- TODO: add an overlay to show a circle in the middle... -->
+    <View
+        android:id="@+id/view_color_viewport"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/square_border" />
 
     <TextView
         android:id="@+id/tv_color_name"
@@ -37,6 +42,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
 </RelativeLayout>
