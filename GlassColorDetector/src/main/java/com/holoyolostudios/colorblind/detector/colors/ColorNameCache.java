@@ -30,10 +30,9 @@ public class ColorNameCache {
      * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
      */
     public static ColorNameCache createInstance() {
-        if (mInstance != null) {
-            throw new IllegalStateException("An instance has already been created.");
+        if (mInstance == null) {
+            mInstance = new ColorNameCache();
         }
-        mInstance = new ColorNameCache();
         return mInstance;
     }
 
@@ -44,11 +43,10 @@ public class ColorNameCache {
      * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
      */
     public static ColorNameCache getInstance() {
-        if (mInstance != null) {
-            return mInstance;
-        } else {
-            throw new IllegalStateException("A instance must be created first.");
+        if (mInstance == null) {
+            throw new IllegalStateException("A ColorNameCache instance must be created first.");
         }
+        return mInstance;
     }
 
     /**
