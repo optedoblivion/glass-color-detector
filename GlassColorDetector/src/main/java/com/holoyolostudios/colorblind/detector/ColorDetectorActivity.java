@@ -18,7 +18,6 @@ public class ColorDetectorActivity extends Activity {
     private ColorNameCache mColorNameCacheInstance = ColorNameCache.getInstance();
 
     // Views
-    private View mViewCameraOverlayMockup = null;
     private TextView mTvColorName = null;
     private View mViewOverlay = null;
     private ProgressBar mProgressBar = null;
@@ -35,7 +34,6 @@ public class ColorDetectorActivity extends Activity {
         }
 
         // Setup the views
-        mViewCameraOverlayMockup = findViewById(R.id.view_camera_preview_mock);
         mTvColorName = (TextView) findViewById(R.id.tv_color_name);
         mViewOverlay = findViewById(R.id.view_overlay);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
