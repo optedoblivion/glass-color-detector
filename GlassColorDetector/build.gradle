@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compile files('/Users/velazcod/Development/android-sdk/add-ons/addon-google_gdk-google-15/libs/gdk.jar')
+    compile 'com.android.support:support-v13:18.0.+'
 }
 
 android {
