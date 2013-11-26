@@ -11,8 +11,10 @@ public class ColorNameCache {
 
     // Constants
     private static final String LOG_TAG = "ColorNameCache";
+
     // Instance
     private static ColorNameCache mInstance = null;
+
     // Members
     private boolean mInitialized = false;
     private ArrayList<ColorName> mColorList = new ArrayList<ColorName>();

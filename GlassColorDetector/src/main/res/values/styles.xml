@@ -3,7 +3,10 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.DeviceDefault">
-        <!-- Customize your theme here. -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">0dp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="ColorDetector.Color.Text" parent="@android:style/TextAppearance">

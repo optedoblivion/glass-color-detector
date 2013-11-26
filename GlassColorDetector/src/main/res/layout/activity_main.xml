@@ -4,10 +4,11 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     tools:context=".ColorDetectorImmersionCard">
 
-    <include
-        layout="@layout/widget_camera_preview_frame"
+    <TextureView
+        android:id="@+id/texture_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
