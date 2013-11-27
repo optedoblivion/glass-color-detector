@@ -1,7 +1,6 @@
 package com.holoyolostudios.colorblind.detector;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -14,11 +13,9 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -42,11 +39,13 @@ public class ColorDetectorActivity extends Activity
     private boolean mColorProcessInProgress = false;
     private int mState = STATE_OFF;
     private long mLastProcessedFrameTimestamp = -1;
+    private byte[] PREVIEW_BUFFER = null;
 
     // Views
     private TextView mTvColorName = null;
     private View mViewOverlay = null;
     private ProgressBar mProgressBar = null;
+    private TextureView mTextureView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +53,8 @@ public class ColorDetectorActivity extends Activity
         setContentView(R.layout.activity_main);
 
         // Setup the views
-        TextureView textureView = (TextureView) findViewById(R.id.texture_view);
-        textureView.setSurfaceTextureListener(this);
+        mTextureView = (TextureView) findViewById(R.id.texture_view);
+        mTextureView.setSurfaceTextureListener(this);
 
         mTvColorName = (TextView) findViewById(R.id.tv_color_name);
         mViewOverlay = findViewById(R.id.view_overlay);
@@ -70,6 +69,9 @@ public class ColorDetectorActivity extends Activity
     }
 
     public void onPause() {
+        if (mCamera != null) {
+            mCamera.release();
+        }
         super.onPause();
     }
 
@@ -139,19 +141,22 @@ public class ColorDetectorActivity extends Activity
         try {
             if (mCamera != null && surface != null) {
                 Camera.Parameters p = mCamera.getParameters();
-                //p.setPreviewSize(640, 360); // TODO: why?
+//                p.setPreviewSize(640, 360); // TODO: why?
                 mPreviewSize = p.getPreviewSize();
                 if (mPreviewSize != null) {
                     Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
                     Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
-                    mExpectedBytes = mPreviewSize.width * mPreviewSize.height *
-                            ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
+                    mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
                 }
                 p.setPreviewFpsRange(30000, 30000);
                 p.setPreviewFormat(ImageFormat.NV21);
+                p.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+                p.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+                p.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
                 mCamera.setParameters(p);
                 mCamera.setPreviewCallbackWithBuffer(this);
-                mCamera.addCallbackBuffer(new byte[mExpectedBytes]);
+                PREVIEW_BUFFER = new byte[mExpectedBytes];
+                mCamera.addCallbackBuffer(PREVIEW_BUFFER);
                 mCamera.setPreviewTexture(surface);
                 mCamera.startPreview();
                 mState = STATE_PREVIEW;
@@ -189,7 +194,7 @@ public class ColorDetectorActivity extends Activity
         }
 
         long currentTime = System.currentTimeMillis();
-        if ((currentTime - mLastProcessedFrameTimestamp) < PROCESS_FRAME_DELAY ) {
+        if ((currentTime - mLastProcessedFrameTimestamp) < PROCESS_FRAME_DELAY) {
             mCamera.addCallbackBuffer(data);
             return;
         }
@@ -208,7 +213,7 @@ public class ColorDetectorActivity extends Activity
         }
 
         mColorProcessInProgress = true;
-//        mCamera.addCallbackBuffer(data);
+
         new ProcessPreviewDataTask().execute(data);
     }
 
@@ -220,35 +225,31 @@ public class ColorDetectorActivity extends Activity
             byte[] data = datas[0];
             String colorName = null;
 
-            // Convert YUV image to ARGB
-            int[] rgb = convertYUV420_NV21toARGB8888(data, mPreviewSize.width, mPreviewSize.height);
+//            // Convert YUV image to ARGB
+            int[] argb = convertYUV420_NV21toARGB8888(data, mPreviewSize.width, mPreviewSize.height);
 
-            if (!mImageSaved) {
-                File file = new File("/sdcard/test_image.jpg");
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(file);
-                    Bitmap bitmap = Bitmap.createBitmap(mPreviewSize.width, mPreviewSize.height, Bitmap.Config.ARGB_8888);
-                    bitmap.setPixels(rgb, 0, mPreviewSize.width, 0, 0, mPreviewSize.width, mPreviewSize.height);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.flush();
-                    bitmap.recycle();
-                    mImageSaved = true;
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+//            Bitmap b = mTextureView.getBitmap();
+//            int argb[] = new int[b.getByteCount()];
+//            b.getPixels(argb, 0, b.getWidth(), 0, 0, b.getWidth(), b.getHeight());
+//            b.recycle();
+//            b = null;
 
-            int argb = rgb[(mPreviewSize.width * mPreviewSize.height) / 2];
-            int red = Color.red(argb);
-            int green = Color.green(argb);
-            int blue = Color.blue(argb);
+            int index = argb.length / 4;
+            index = (int) ((float) (index / 2) + .5f);
+            index *= 4;
 
-            Log.e("PIXELS", "red: " + red);
-            Log.e("PIXELS", "green: " + green);
-            Log.e("PIXELS", "blue: " + blue);
+            int pixel = 0x00000000;
+            pixel |= argb[index];
+            pixel |= argb[index + 1];
+            pixel |= argb[mPreviewSize.width + index];
+            pixel |= argb[mPreviewSize.width + index + 1];
+
+            int alpha = Color.alpha(pixel);
+            int red = Color.red(pixel);
+            int green = Color.green(pixel);
+            int blue = Color.blue(pixel);
+
+            Log.e("PIXEL COLOR: ", "" + red + ", " + green + ", " + blue);
 
             colorName = getColorName(red, green, blue);
 
