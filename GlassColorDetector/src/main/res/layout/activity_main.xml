@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context=".ColorDetectorImmersionCard">
+    tools:context=".ColorDetectorActivity">
 
     <TextureView
-        android:id="@+id/texture_view"
+        android:id="@+id/tv_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -30,18 +30,31 @@
         android:text="@string/sample_color"
         android:visibility="invisible"/>
 
-    <View
-        android:id="@+id/view_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent_gray"
-        android:visibility="invisible"/>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/widget_color_pbar"
+            android:id="@+id/cpb_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <include
+            layout="@layout/widget_color_pbar"
+            android:id="@+id/cpb_g"
+            android:layout_below="@id/cpb_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <include
+            layout="@layout/widget_color_pbar"
+            android:id="@+id/cpb_b"
+            android:layout_below="@id/cpb_g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
