@@ -138,7 +138,6 @@ public class ColorDetectorActivity extends Activity
         try {
             if (mCamera != null && surface != null) {
                 Camera.Parameters p = mCamera.getParameters();
-//                p.setPreviewSize(640, 360); // TODO: why?
                 mPreviewSize = p.getPreviewSize();
                 if (mPreviewSize != null) {
                     Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
