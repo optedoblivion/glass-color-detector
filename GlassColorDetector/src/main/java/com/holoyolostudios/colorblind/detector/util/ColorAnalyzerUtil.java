@@ -113,7 +113,7 @@ public class ColorAnalyzerUtil {
         }
 
         public int getPixel() {
-            return Color.argb(mAlpha, mRed, mGreen, mBlue);
+            return Color.rgb(mRed, mGreen, mBlue);
         }
 
         public int getAlpha() {
@@ -138,7 +138,7 @@ public class ColorAnalyzerUtil {
 
         public String getHexCode() {
             if (mHexCode == null) {
-                mHexCode = String.format("#%06x", getPixel());
+                mHexCode = String.format("%06x", getPixel());
             }
             return mHexCode;
         }

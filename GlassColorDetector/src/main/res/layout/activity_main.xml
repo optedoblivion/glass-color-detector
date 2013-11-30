@@ -49,7 +49,7 @@
         android:layout_height="wrap_content">
 
         <include
-            layout="@layout/widget_blue_pbar"
+            layout="@layout/widget_red_pbar"
             android:id="@+id/cpb_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

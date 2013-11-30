@@ -215,7 +215,7 @@ public class ColorDetectorActivity extends Activity
                 mRBar.setColorProgress(color.getRed());
                 mGBar.setColorProgress(color.getGreen());
                 mBBar.setColorProgress(color.getBlue());
-                mColorHexLabel.setText(color.getHexCode());
+                mColorHexLabel.setText("#" + color.getHexCode().substring(2));
                 mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
                 mInfoRGBLabel.setText("R:" + color.getRed() + " G:" + color.getGreen() + " B:" + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());
