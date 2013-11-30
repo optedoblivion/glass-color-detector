@@ -8,11 +8,10 @@
     <TextView
         android:id="@+id/tv_label"
         android:background="@android:color/transparent"
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="R"/>
+        android:textSize="12sp"
+        android:layout_centerVertical="true"/>
 
     <ProgressBar
         android:id="@+id/pb_color"
@@ -21,7 +20,7 @@
         android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        style="@android:style/Widget.Holo.ProgressBar.Horizontal"/>
+        style="@style/GreenProgressBar"/>
 
 </com.holoyolostudios.colorblind.detector.view.ColorProgressBar>
 

@@ -58,7 +58,7 @@ public class ColorProgressBar extends RelativeLayout {
      */
     public void onFinishInflate() {
         mProgressBar = (ProgressBar) findViewById(R.id.pb_color);
-        mProgressBar.setMax(25);
+        mProgressBar.setMax(255);
         mLabel = (TextView) findViewById(R.id.tv_label);
         super.onFinishInflate();
     }

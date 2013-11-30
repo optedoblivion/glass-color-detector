@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
@@ -50,6 +51,8 @@ public class ColorDetectorActivity extends Activity
     private ColorProgressBar mBBar = null;
     private TextView mColorNameLabel = null;
     private TextView mColorHexLabel = null;
+    private TextView mInfoRGBLabel = null;
+    private View mSampleView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +71,13 @@ public class ColorDetectorActivity extends Activity
         mBBar = (ColorProgressBar) findViewById(R.id.cpb_b);
         mBBar.setLabelText("B");
 
+        // Sample preview of color
+        mSampleView = findViewById(R.id.v_sample);
+
         // Labels
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
-//        mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
+        mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
+        mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
 
         // Execute the AsyncTask and see if the ColorNameCache needs to be initialized
         (new CacheInitTask()).execute();
@@ -181,6 +188,23 @@ public class ColorDetectorActivity extends Activity
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
     }
 
+    public void onResume() {
+        super.onResume();
+        if (mCamera != null) {
+            mCamera.setPreviewCallbackWithBuffer(this);
+            mCamera.addCallbackBuffer(PREVIEW_BUFFER);
+            mCamera.startPreview();
+        }
+    }
+
+    public void onPause() {
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.setPreviewCallbackWithBuffer(null);
+        }
+        super.onPause();
+    }
+
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         final ColorAnalyzerUtil.RGBColor color = ColorAnalyzerUtil.getAverageColor(data, mHalfWidth - 5, mHalfHeight - 5, mHalfWidth + 5, mHalfHeight + 5);
@@ -191,7 +215,10 @@ public class ColorDetectorActivity extends Activity
                 mRBar.setColorProgress(color.getRed());
                 mGBar.setColorProgress(color.getGreen());
                 mBBar.setColorProgress(color.getBlue());
-                mColorNameLabel.setText(color.getHexCode());
+                mColorHexLabel.setText(color.getHexCode());
+                mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
+                mInfoRGBLabel.setText("R:" + color.getRed() + " G:" + color.getGreen() + " B:" + color.getBlue());
+                mSampleView.setBackgroundColor(color.getPixel());
             }
 
         });

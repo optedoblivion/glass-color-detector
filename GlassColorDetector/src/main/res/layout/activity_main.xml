@@ -19,41 +19,91 @@
         android:layout_centerInParent="true"
         android:background="@drawable/square_border"/>
 
-    <TextView
-        android:id="@+id/tv_color_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:background="#44444444"
+        android:padding="@dimen/border_margin"
+        android:layout_marginRight="@dimen/border_margin"
+        android:layout_marginBottom="@dimen/border_margin"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/color_text_bottom_margin"
-        style="@style/ColorDetector.Color.Text"
-        android:text="@string/sample_color"
-        android:visibility="visible"/>
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_color_name"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+            android:textSize="12sp"
+            android:text="@string/sample_color"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="5dp"
+        android:background="#44444444"
+        android:layout_marginTop="@dimen/border_margin"
+        android:layout_marginLeft="@dimen/border_margin"
+        android:padding="@dimen/border_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <include
-            layout="@layout/widget_color_pbar"
+            layout="@layout/widget_blue_pbar"
             android:id="@+id/cpb_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <include
-            layout="@layout/widget_color_pbar"
+            layout="@layout/widget_green_pbar"
             android:id="@+id/cpb_g"
             android:layout_below="@id/cpb_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <include
-            layout="@layout/widget_color_pbar"
+            layout="@layout/widget_blue_pbar"
             android:id="@+id/cpb_b"
             android:layout_below="@id/cpb_g"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_sample"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/border_margin"
+        android:layout_marginBottom="@dimen/border_margin"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+
+    <RelativeLayout
+        android:id="@+id/grp_info_wrapper"
+        android:background="#44444444"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/border_margin"
+        android:layout_marginRight="@dimen/border_margin"
+        android:padding="@dimen/border_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_color_hex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="#FFFFFFFF"/>
+
+        <TextView
+            android:id="@+id/tv_info_rgb"
+            android:layout_below="@id/tv_color_hex"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="R:255 G:255 B:255"/>
 
     </RelativeLayout>
 

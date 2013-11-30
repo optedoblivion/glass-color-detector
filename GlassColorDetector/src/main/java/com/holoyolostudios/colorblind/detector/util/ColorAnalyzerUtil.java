@@ -25,20 +25,24 @@ public class ColorAnalyzerUtil {
      */
     public static RGBColor getAverageColor(byte[] yuv, int x1, int y1, int x2, int y2) {
         int i = (x2 - x1) * (y2 - y1);
+        i /= 10;
         int j = 0;
         int k = 0;
         int m = 0;
         int n = x1;
-        if (n >= x2) {
-            return new RGBColor(j / i, k / i, m / i);
-        }
+
         for (int i1 = y1; i1 < y2; i1++) {
             int i2 = getColorAtPoint(yuv, n, i1);
             j += Color.red(i2);
             k += Color.green(i2);
             m += Color.blue(i2);
-            n++;
+            if (n >= x2) {
+                return new RGBColor(j / i, k / i, m / i);
+            } else {
+                n++;
+            }
         }
+
         return new RGBColor(j / i, k / i, m / i);
     }
 
@@ -57,9 +61,9 @@ public class ColorAnalyzerUtil {
         int m = 0xFF & yuv[i];
         int n = k - 128;
         int i1 = m - 128;
-        int i2 = (int) (j + 1.402D * i1);
-        int i3 = (int) (j - 0.344D * n - 0.714D * i1);
-        int i4 = (int) (j + 1.772D * n);
+        int i2 = (int) (j + 1.402f * i1);
+        int i3 = (int) (j - 0.344f * n - 0.714f * i1);
+        int i4 = (int) (j + 1.772f * n);
         i2 = (i2 < 0) ? 0 : i2;
         i2 = (i2 > 255) ? 255 : i2;
         i3 = (i3 < 0) ? 0 : i3;
@@ -67,57 +71,6 @@ public class ColorAnalyzerUtil {
         i4 = (i4 < 0) ? 0 : i4;
         i4 = (i4 > 255) ? 255 : i4;
         return Color.rgb(i2, i3, i4);
-    }
-
-    /**
-     * Converts YUV420 NV21 to RGB8888
-     *
-     * @param data   byte array on YUV420 NV21 format.
-     * @param width  pixels width
-     * @param height pixels height
-     * @return a RGB8888 pixels int array. Where each int is a pixels ARGB.
-     */
-    public static int[] convertYUV420_NV21toRGB8888(byte[] data, int width, int height) {
-        int size = width * height;
-        int offset = size;
-        int[] pixels = new int[size];
-        int u, v, y1, y2, y3, y4;
-
-        // i percorre os Y and the final pixels
-        // k percorre os pixles U e V
-        for (int i = 0, k = 0; i < size; i += 2, k += 2) {
-            y1 = data[i] & 0xff;
-            y2 = data[i + 1] & 0xff;
-            y3 = data[width + i] & 0xff;
-            y4 = data[width + i + 1] & 0xff;
-
-            u = data[offset + k] & 0xff;
-            v = data[offset + k + 1] & 0xff;
-            u = u - 128;
-            v = v - 128;
-
-            pixels[i] = convertYUVtoRGB(y1, u, v);
-            pixels[i + 1] = convertYUVtoRGB(y2, u, v);
-            pixels[width + i] = convertYUVtoRGB(y3, u, v);
-            pixels[width + i + 1] = convertYUVtoRGB(y4, u, v);
-
-            if (i != 0 && (i + 2) % width == 0)
-                i += width;
-        }
-
-        return pixels;
-    }
-
-    private static int convertYUVtoRGB(int y, int u, int v) {
-        int r, g, b;
-
-        r = y + (int) 1.402f * v;
-        g = y - (int) (0.344f * u + 0.714f * v);
-        b = y + (int) 1.772f * u;
-        r = r > 255 ? 255 : r < 0 ? 0 : r;
-        g = g > 255 ? 255 : g < 0 ? 0 : g;
-        b = b > 255 ? 255 : b < 0 ? 0 : b;
-        return 0xff000000 | (b << 16) | (g << 8) | r;
     }
 
     /**
@@ -185,7 +138,7 @@ public class ColorAnalyzerUtil {
 
         public String getHexCode() {
             if (mHexCode == null) {
-                mHexCode = String.format("#%02x%02x%02x", getRed(), getGreen(), getBlue());
+                mHexCode = String.format("#%06x", getPixel());
             }
             return mHexCode;
         }
