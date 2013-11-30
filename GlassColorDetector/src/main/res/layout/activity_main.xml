@@ -28,7 +28,7 @@
         android:layout_marginBottom="@dimen/color_text_bottom_margin"
         style="@style/ColorDetector.Color.Text"
         android:text="@string/sample_color"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <RelativeLayout
         android:layout_marginTop="5dp"
