@@ -13,31 +13,6 @@ public class ColorAnalyzerUtil {
     public static int FRAME_WIDTH = 640;
     public static int FRAME_HEIGHT = 480;
 
-    public static RGBColor analyze(int r, int g, int b) {
-        RGBColor color = new RGBColor(r, g, b);
-        return color;
-    }
-
-    public static void analyze(byte[] yuv, int w, int h) {
-        int[] argb = ColorAnalyzerUtil.convertYUV420_NV21toRGB8888(yuv, w, h);
-
-        int index = argb.length / 4;
-        index = (int) ((float) (index / 2) + .5f);
-        index *= 4;
-
-        int pixel = 0xFF000000;
-        pixel |= argb[index];
-        pixel |= argb[index + 1];
-        pixel |= argb[w + index];
-        pixel |= argb[w + index + 1];
-
-        int alpha = Color.alpha(pixel);
-        int red = Color.red(pixel);
-        int green = Color.green(pixel);
-        int blue = Color.blue(pixel);
-
-    }
-
     /**
      * Get the average color of a rect area of a YUV420SPNV21 byte array
      *
