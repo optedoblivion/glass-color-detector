@@ -5,19 +5,21 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
-
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * ColorDetectorActivity
@@ -103,29 +105,56 @@ public class ColorDetectorActivity extends Activity
 
     }
 
-    @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        mCamera = Camera.open();
+    private Camera.Parameters getCameraParameters(Camera.Parameters params) {
+        params.setPreviewFormat(ImageFormat.NV21);
+
+        List<String> focusModes = params.getSupportedFocusModes();
+        if (focusModes != null) {
+            if (focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+            }
+        }
+
+        List<String> whiteBalanceModes = params.getSupportedWhiteBalance();
+        if (whiteBalanceModes != null) {
+            if (whiteBalanceModes.contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
+                params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+            }
+        }
+
+        List<String> sceneModes = params.getSupportedSceneModes();
+        if (sceneModes != null) {
+            if (sceneModes.contains(Camera.Parameters.SCENE_MODE_AUTO)) {
+                params.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+            }
+        }
+
+        if (Build.MODEL.contains("Glass")) {
+            // Hack for Google glass
+            params.setPreviewFpsRange(30000, 30000);
+        }
+
+        return params;
+    }
+
+    private void startPreview(SurfaceTexture surface) {
+        if (mCamera == null) {
+            mCamera = Camera.open();
+        }
         try {
             if (mCamera != null && surface != null) {
                 Camera.Parameters p = mCamera.getParameters();
+
                 mPreviewSize = p.getPreviewSize();
-                if (mPreviewSize != null) {
-                    Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
-                    Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
-                    mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
-                }
-                // [TODO][MSB]: Un nigger this
+                Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
+                Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
+                mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
                 ColorAnalyzerUtil.FRAME_WIDTH = mPreviewSize.width;
                 ColorAnalyzerUtil.FRAME_HEIGHT = mPreviewSize.height;
                 mHalfWidth = mPreviewSize.width / 2;
                 mHalfHeight = mPreviewSize.height / 2;
-                p.setPreviewFpsRange(30000, 30000);
-                p.setPreviewFormat(ImageFormat.NV21);
-                p.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-                p.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                p.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-                mCamera.setParameters(p);
+
+                mCamera.setParameters(getCameraParameters(p));
                 mCamera.setPreviewCallbackWithBuffer(this);
                 PREVIEW_BUFFER = new byte[mExpectedBytes];
                 mCamera.addCallbackBuffer(PREVIEW_BUFFER);
@@ -138,39 +167,13 @@ public class ColorDetectorActivity extends Activity
     }
 
     @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        startPreview(surface);
+    }
+
+    @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-        if (mCamera == null) {
-            mCamera = Camera.open();
-        }
-        try {
-            if (mCamera != null && surface != null) {
-                Camera.Parameters p = mCamera.getParameters();
-                mPreviewSize = p.getPreviewSize();
-                if (mPreviewSize != null) {
-                    Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
-                    Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
-                    mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
-                }
-                // [TODO][MSB]: Un nigger this
-                ColorAnalyzerUtil.FRAME_WIDTH = mPreviewSize.width;
-                ColorAnalyzerUtil.FRAME_HEIGHT = mPreviewSize.height;
-                mHalfWidth = mPreviewSize.width / 2;
-                mHalfHeight = mPreviewSize.height / 2;
-                p.setPreviewFpsRange(30000, 30000);
-                p.setPreviewFormat(ImageFormat.NV21);
-                p.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-                p.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                p.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-                mCamera.setParameters(p);
-                mCamera.setPreviewCallbackWithBuffer(this);
-                PREVIEW_BUFFER = new byte[mExpectedBytes];
-                mCamera.addCallbackBuffer(PREVIEW_BUFFER);
-                mCamera.setPreviewTexture(surface);
-                mCamera.startPreview();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        startPreview(surface);
     }
 
     @Override
@@ -203,6 +206,21 @@ public class ColorDetectorActivity extends Activity
             mCamera.setPreviewCallbackWithBuffer(null);
         }
         super.onPause();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            if (mCamera != null) {
+                mCamera.setPreviewCallbackWithBuffer(null);
+                mCamera.stopPreview();
+                mCamera.release();
+                mCamera = null;
+            }
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 
     @Override
