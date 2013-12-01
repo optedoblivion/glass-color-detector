@@ -105,7 +105,7 @@ public class ColorDetectorActivity extends Activity
 
     }
 
-    private Camera.Parameters getCameraParameters(Camera.Parameters params) {
+    private Camera.Parameters setCameraParametersForPreview(Camera.Parameters params) {
         params.setPreviewFormat(ImageFormat.NV21);
 
         List<String> focusModes = params.getSupportedFocusModes();
@@ -129,8 +129,9 @@ public class ColorDetectorActivity extends Activity
             }
         }
 
+        // Hack for Google glass
         if (Build.MODEL.contains("Glass")) {
-            // Hack for Google glass
+            params.setPreviewSize(640,360);
             params.setPreviewFpsRange(30000, 30000);
         }
 
@@ -144,7 +145,7 @@ public class ColorDetectorActivity extends Activity
         try {
             if (mCamera != null && surface != null) {
                 Camera.Parameters p = mCamera.getParameters();
-
+                p = setCameraParametersForPreview(p);
                 mPreviewSize = p.getPreviewSize();
                 Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
                 Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
@@ -153,8 +154,7 @@ public class ColorDetectorActivity extends Activity
                 ColorAnalyzerUtil.FRAME_HEIGHT = mPreviewSize.height;
                 mHalfWidth = mPreviewSize.width / 2;
                 mHalfHeight = mPreviewSize.height / 2;
-
-                mCamera.setParameters(getCameraParameters(p));
+                mCamera.setParameters(p);
                 mCamera.setPreviewCallbackWithBuffer(this);
                 PREVIEW_BUFFER = new byte[mExpectedBytes];
                 mCamera.addCallbackBuffer(PREVIEW_BUFFER);
@@ -225,9 +225,9 @@ public class ColorDetectorActivity extends Activity
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        final ColorAnalyzerUtil.RGBColor color = ColorAnalyzerUtil.getAverageColor(data, mHalfWidth - 5, mHalfHeight - 5, mHalfWidth + 5, mHalfHeight + 5);
+        final ColorAnalyzerUtil.RGBColor color = ColorAnalyzerUtil.getAverageColor(data,
+                mHalfWidth - 5, mHalfHeight - 5, mHalfWidth + 5, mHalfHeight + 5);
         mHandler.post(new Runnable() {
-
             @Override
             public void run() {
                 mRBar.setColorProgress(color.getRed());
@@ -238,7 +238,6 @@ public class ColorDetectorActivity extends Activity
                 mInfoRGBLabel.setText("R:" + color.getRed() + " G:" + color.getGreen() + " B:" + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());
             }
-
         });
         camera.addCallbackBuffer(PREVIEW_BUFFER);
     }
