@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
@@ -45,6 +46,8 @@ public class ColorDetectorActivity extends Activity
     private byte[] PREVIEW_BUFFER = null;
     private int mHalfWidth = 0;
     private int mHalfHeight = 0;
+    private boolean mFlashTorchSupported = false;
+    private boolean mFlashTorchActive = false;
 
     // Views
     private TextureView mTextureView = null;
@@ -55,6 +58,7 @@ public class ColorDetectorActivity extends Activity
     private TextView mColorHexLabel = null;
     private TextView mInfoRGBLabel = null;
     private View mSampleView = null;
+    private Button mBtnFlashTorch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,26 @@ public class ColorDetectorActivity extends Activity
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
         mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
         mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
+
+        // Flash torch button
+        mBtnFlashTorch = (Button) findViewById(R.id.btn_flash_torch);
+        mBtnFlashTorch.setVisibility(mFlashTorchSupported ? View.VISIBLE : View.GONE);
+        mBtnFlashTorch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCamera != null) {
+                    Camera.Parameters params = mCamera.getParameters();
+                    if (mFlashTorchActive) {
+                        mFlashTorchActive = false;
+                        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    } else {
+                        mFlashTorchActive = true;
+                        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    }
+                    mCamera.setParameters(params);
+                }
+            }
+        });
 
         // Execute the AsyncTask and see if the ColorNameCache needs to be initialized
         (new CacheInitTask()).execute();
@@ -129,6 +153,13 @@ public class ColorDetectorActivity extends Activity
             }
         }
 
+        mFlashTorchActive = params.getFlashMode().equals(Camera.Parameters.FLASH_MODE_TORCH);
+        List<String> flashModes = params.getSupportedFlashModes();
+        if (flashModes != null) {
+            mFlashTorchSupported = flashModes.contains(Camera.Parameters.FLASH_MODE_TORCH);
+            mBtnFlashTorch.setVisibility(mFlashTorchSupported ? View.VISIBLE : View.GONE);
+        }
+
         // Hack for Google glass
         if (Build.MODEL.contains("Glass")) {
             params.setPreviewSize(640,360);
@@ -140,6 +171,7 @@ public class ColorDetectorActivity extends Activity
 
     private void startPreview(SurfaceTexture surface) {
         if (mCamera == null) {
+            // Rear-facing camera only
             mCamera = Camera.open();
         }
         try {
@@ -147,8 +179,8 @@ public class ColorDetectorActivity extends Activity
                 Camera.Parameters p = mCamera.getParameters();
                 p = setCameraParametersForPreview(p);
                 mPreviewSize = p.getPreviewSize();
-                Log.e("PIXELS", "mPreviewSize.width: " + mPreviewSize.width);
-                Log.e("PIXELS", "mPreviewSize.height: " + mPreviewSize.height);
+                Log.d(LOG_TAG, "mPreviewSize.width: " + mPreviewSize.width);
+                Log.d(LOG_TAG, "mPreviewSize.height: " + mPreviewSize.height);
                 mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
                 ColorAnalyzerUtil.FRAME_WIDTH = mPreviewSize.width;
                 ColorAnalyzerUtil.FRAME_HEIGHT = mPreviewSize.height;

@@ -19,6 +19,15 @@
         android:layout_centerInParent="true"
         android:background="@drawable/square_border"/>
 
+    <Button
+        android:id="@+id/btn_flash_torch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:text="Flash!"/>
+
     <RelativeLayout
         android:background="#44444444"
         android:padding="@dimen/border_margin"
