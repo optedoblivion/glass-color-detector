@@ -10,17 +10,14 @@
         android:background="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        style="@style/ColorDetector.Color.Text.Info"/>
 
     <ProgressBar
         android:id="@+id/pb_color"
         android:layout_toRightOf="@id/tv_label"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        style="@style/RedProgressBar"/>
+        style="@style/ColorDetector.ColorProgressBar.Red"/>
 
 </com.holoyolostudios.colorblind.detector.view.ColorProgressBar>
 

@@ -13,11 +13,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
+import com.holoyolostudios.colorblind.detector.view.FlashButton;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,7 +58,7 @@ public class ColorDetectorActivity extends Activity
     private TextView mColorHexLabel = null;
     private TextView mInfoRGBLabel = null;
     private View mSampleView = null;
-    private Button mBtnFlashTorch = null;
+    private FlashButton mBtnFlashTorch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +86,9 @@ public class ColorDetectorActivity extends Activity
         mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
 
         // Flash torch button
-        mBtnFlashTorch = (Button) findViewById(R.id.btn_flash_torch);
+        mBtnFlashTorch = (FlashButton) findViewById(R.id.btn_flash_torch);
         mBtnFlashTorch.setVisibility(mFlashTorchSupported ? View.VISIBLE : View.GONE);
+        mBtnFlashTorch.setTorchFlashOn(mFlashTorchActive);
         mBtnFlashTorch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +101,7 @@ public class ColorDetectorActivity extends Activity
                         mFlashTorchActive = true;
                         params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                     }
+                    mBtnFlashTorch.setTorchFlashOn(mFlashTorchActive);
                     mCamera.setParameters(params);
                 }
             }
@@ -265,9 +267,9 @@ public class ColorDetectorActivity extends Activity
                 mRBar.setColorProgress(color.getRed());
                 mGBar.setColorProgress(color.getGreen());
                 mBBar.setColorProgress(color.getBlue());
-                mColorHexLabel.setText("#" + color.getHexCode().substring(2));
+                mColorHexLabel.setText("HEX #" + color.getHexCode().substring(2));
                 mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
-                mInfoRGBLabel.setText("R:" + color.getRed() + " G:" + color.getGreen() + " B:" + color.getBlue());
+                mInfoRGBLabel.setText("R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());
             }
         });

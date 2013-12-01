@@ -9,29 +9,36 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="ColorDetector.Color.Text" parent="@android:style/TextAppearance">
+    <style name="ColorDetector.Color.Text.Info" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/color_text_size</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:padding">@dimen/color_text_padding</item>
     </style>
 
-    <style name="GreenProgressBar" parent="android:Widget.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/green_progress_horizontal_holo_dark
-        </item>
-        <item name="android:indeterminateDrawable">
-            @drawable/green_progress_indeterminate_horizontal_holo_dark
-        </item>
+    <style name="ColorDetector.Color.Text.Info.Name" parent="ColorDetector.Color.Text.Info">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ColorDetector.ColorProgressBar" parent="android:Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:layout_width">@dimen/color_progressbar_width</item>
+        <item name="android:layout_height">@dimen/color_progressbar_height</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="ColorDetector.ColorProgressBar.Blue" parent="ColorDetector.ColorProgressBar">
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>
     </style>
 
-    <style name="RedProgressBar" parent="android:Widget.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/red_progress_horizontal_holo_dark
-        </item>
-        <item name="android:indeterminateDrawable">
-            @drawable/red_progress_indeterminate_horizontal_holo_dark
-        </item>
+    <style name="ColorDetector.ColorProgressBar.Green" parent="ColorDetector.ColorProgressBar">
+        <item name="android:progressDrawable">@drawable/green_progress_horizontal_holo_dark</item>
+        <item name="android:indeterminateDrawable">@drawable/green_progress_indeterminate_horizontal_holo_dark</item>
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
+    </style>
+
+    <style name="ColorDetector.ColorProgressBar.Red" parent="ColorDetector.ColorProgressBar">
+        <item name="android:progressDrawable">@drawable/red_progress_horizontal_holo_dark</item>
+        <item name="android:indeterminateDrawable">@drawable/red_progress_indeterminate_horizontal_holo_dark</item>
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>
     </style>
