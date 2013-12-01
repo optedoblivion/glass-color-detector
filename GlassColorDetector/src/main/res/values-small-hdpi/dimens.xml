@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="border_margin">8dp</dimen>
+    <dimen name="child_element_margin">3dp</dimen>
+
+    <dimen name="detector_viewport_width">15dp</dimen>
+    <dimen name="detector_viewport_height">12dp</dimen>
+
+    <dimen name="info_square_width">200dp</dimen>
+    <dimen name="info_square_height">87dp</dimen>
+
+    <dimen name="color_text_size">20sp</dimen>
+
+</resources>

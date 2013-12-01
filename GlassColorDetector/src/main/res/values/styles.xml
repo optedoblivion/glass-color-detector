@@ -10,11 +10,12 @@
     </style>
 
     <style name="ColorDetector.Color.Text.Info" parent="@android:style/TextAppearance">
-        <item name="android:textSize">@dimen/color_text_size</item>
+        <item name="android:textSize">@dimen/color_info_text_size</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="ColorDetector.Color.Text.Info.Name" parent="ColorDetector.Color.Text.Info">
+        <item name="android:textSize">@dimen/color_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 

@@ -73,15 +73,15 @@
 
         <View
             android:id="@+id/v_sample"
-            android:layout_width="@dimen/color_sample_view"
+            android:layout_width="@dimen/color_sample_view_width"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/child_element_margin"
             android:layout_marginTop="@dimen/child_element_margin"
-            android:layout_marginBottom="@dimen/child_element_margin"
-            android:background="@color/yellow"/>
+            android:layout_marginBottom="@dimen/child_element_margin" />
+            <!--android:background="@color/yellow"/> -->
 
         <TextView
             android:id="@+id/tv_color_name"
@@ -91,9 +91,9 @@
             android:layout_alignTop="@+id/v_sample"
             android:layout_marginLeft="@dimen/child_element_margin"
             android:gravity="center_vertical"
-            android:text="@string/sample_color"
             android:visibility="visible"
             style="@style/ColorDetector.Color.Text.Info.Name"/>
+            <!-- android:text="@string/sample_color"/> -->
 
         <TextView
             android:id="@+id/tv_color_hex"
@@ -101,8 +101,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_color_name"
             android:layout_alignLeft="@+id/tv_color_name"
-            style="@style/ColorDetector.Color.Text.Info"
-            android:text="HEX #FFFFFFFF"/>
+            style="@style/ColorDetector.Color.Text.Info"/>
+            <!-- android:text="HEX #FFFFFFFF"/> -->
 
         <TextView
             android:id="@+id/tv_info_rgb"
@@ -110,8 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_color_hex"
-            style="@style/ColorDetector.Color.Text.Info"
-            android:text="R:255 G:255 B:255"/>
+            style="@style/ColorDetector.Color.Text.Info"/>
+            <!-- android:text="R:255 G:255 B:255"/> -->
 
     </RelativeLayout>
 
