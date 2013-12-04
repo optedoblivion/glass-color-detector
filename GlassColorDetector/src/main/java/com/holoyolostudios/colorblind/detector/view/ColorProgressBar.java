@@ -13,9 +13,6 @@ import com.holoyolostudios.colorblind.detector.R;
  * <p/>
  * Layout to display a label and progress bar
  * <p/>
- *
- * @author Martin Brabham
- * @since 11/27/13
  */
 public class ColorProgressBar extends RelativeLayout {
 

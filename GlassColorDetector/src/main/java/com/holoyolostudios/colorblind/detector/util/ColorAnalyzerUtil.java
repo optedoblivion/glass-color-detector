@@ -4,9 +4,6 @@ import android.graphics.Color;
 
 /**
  * ColorAnalyzerUtil
- *
- * @author Martin Brabham
- * @since 11/26/13
  */
 public class ColorAnalyzerUtil {
 

@@ -24,6 +24,10 @@ import java.util.List;
 
 /**
  * ColorDetectorActivity
+ *
+ * TODO: Abstract the camera stuff a bit more
+ * TODO: fix this code, it got a bit messy.
+ *
  * <p/>
  * <p/>
  *
