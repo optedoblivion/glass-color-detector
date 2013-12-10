@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
-
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
@@ -116,9 +115,6 @@ public class ColorDetectorActivity extends Activity
                 }
             }
         });
-
-        // Execute the AsyncTask and see if the ColorNameCache needs to be initialized
-        (new CacheInitTask()).execute();
     }
 
     private String getColorName(int r, int g, int b) {
@@ -133,18 +129,6 @@ public class ColorDetectorActivity extends Activity
     public boolean onTouch(View v, MotionEvent event) {
         Log.i("TEST", "Event: " + event.getAction());
         return true;
-    }
-
-    /**
-     * AsyncTask to initialize the color cache in case it hasn't been initialized yet.
-     */
-    private class CacheInitTask extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            return mColorNameCacheInstance.init();
-        }
-
     }
 
     private Camera.Parameters setCameraParametersForPreview(Camera.Parameters params) {
@@ -247,20 +231,20 @@ public class ColorDetectorActivity extends Activity
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
-//            if (mCamera != null) {
-//                mCamera.setPreviewCallbackWithBuffer(null);
-//                mCamera.stopPreview();
-//                mCamera.release();
-//                mCamera = null;
-//            }
-//            return false;
-//        } else {
-//            return super.onKeyDown(keyCode, event);
-//        }
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            if (mCamera != null) {
+                mCamera.setPreviewCallbackWithBuffer(null);
+                mCamera.stopPreview();
+                mCamera.release();
+                mCamera = null;
+            }
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {

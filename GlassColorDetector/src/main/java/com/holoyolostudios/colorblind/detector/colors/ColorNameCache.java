@@ -40,6 +40,7 @@ public class ColorNameCache {
     public static ColorNameCache createInstance() {
         if (mInstance == null) {
             mInstance = new ColorNameCache();
+            mInstance.init();
         }
         return mInstance;
     }
