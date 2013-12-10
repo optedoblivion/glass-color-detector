@@ -63,6 +63,7 @@ public class ColorDetectorActivity extends Activity
     private TextView mInfoRGBLabel = null;
     private View mSampleView = null;
     private FlashButton mBtnFlashTorch = null;
+    private View mViewPort = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,9 @@ public class ColorDetectorActivity extends Activity
 
         // Sample preview of color
         mSampleView = findViewById(R.id.v_sample);
+
+        // Viewport
+        mViewPort = findViewById(R.id.view_color_viewport);
 
         // Labels
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
@@ -253,7 +257,7 @@ public class ColorDetectorActivity extends Activity
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         final ColorAnalyzerUtil.RGBColor color = ColorAnalyzerUtil.getAverageColor(data,
-                mHalfWidth - 5, mHalfHeight - 5, mHalfWidth + 5, mHalfHeight + 5);
+                mHalfWidth - (mViewPort.getWidth() / 2), mHalfHeight - (mViewPort.getHeight() / 2), mHalfWidth + (mViewPort.getWidth() / 2), mHalfHeight + (mViewPort.getHeight() / 2));
         mHandler.post(new Runnable() {
             @Override
             public void run() {
