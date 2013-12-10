@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ import java.util.List;
  * @see {@link android.hardware.Camera.PreviewCallback}
  */
 public class ColorDetectorActivity extends Activity
-        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback {
+        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback, View.OnTouchListener {
 
     // Constants
     private static final String LOG_TAG = "ColorDetectorActivity";
@@ -73,6 +74,7 @@ public class ColorDetectorActivity extends Activity
         // Setup the views
         mTextureView = (TextureView) findViewById(R.id.tv_camera_preview);
         mTextureView.setSurfaceTextureListener(this);
+        mTextureView.setOnTouchListener(this);
 
         // Progress bars
         mRBar = (ColorProgressBar) findViewById(R.id.cpb_r);
@@ -125,6 +127,12 @@ public class ColorDetectorActivity extends Activity
             colorName = mColorNameCacheInstance.getColorName(r, g, b);
         }
         return colorName;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.i("TEST", "Event: " + event.getAction());
+        return true;
     }
 
     /**
