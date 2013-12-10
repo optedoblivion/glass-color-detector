@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
+
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
@@ -24,10 +24,10 @@ import java.util.List;
 
 /**
  * ColorDetectorActivity
- *
+ * <p/>
  * TODO: Abstract the camera stuff a bit more
  * TODO: fix this code, it got a bit messy.
- *
+ * <p/>
  * <p/>
  * <p/>
  *
@@ -168,7 +168,7 @@ public class ColorDetectorActivity extends Activity
 
         // Hack for Google glass
         if (Build.MODEL.contains("Glass")) {
-            params.setPreviewSize(640,360);
+            params.setPreviewSize(640, 360);
             params.setPreviewFpsRange(30000, 30000);
         }
 
@@ -204,24 +204,30 @@ public class ColorDetectorActivity extends Activity
         }
     }
 
+    private void stopPreview() {
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.setPreviewCallbackWithBuffer(null);
+            mCamera.release();
+            mCamera = null;
+        }
+    }
+
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        stopPreview();
         startPreview(surface);
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+        stopPreview();
         startPreview(surface);
     }
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        if (mCamera != null) {
-            mCamera.setPreviewCallbackWithBuffer(null);
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
-        }
+        stopPreview();
         return true;
     }
 
@@ -229,37 +235,20 @@ public class ColorDetectorActivity extends Activity
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
     }
 
-    public void onResume() {
-        super.onResume();
-        if (mCamera != null) {
-            mCamera.setPreviewCallbackWithBuffer(this);
-            mCamera.addCallbackBuffer(PREVIEW_BUFFER);
-            mCamera.startPreview();
-        }
-    }
-
-    public void onPause() {
-        if (mCamera != null) {
-            mCamera.stopPreview();
-            mCamera.setPreviewCallbackWithBuffer(null);
-        }
-        super.onPause();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
-            if (mCamera != null) {
-                mCamera.setPreviewCallbackWithBuffer(null);
-                mCamera.stopPreview();
-                mCamera.release();
-                mCamera = null;
-            }
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+//            if (mCamera != null) {
+//                mCamera.setPreviewCallbackWithBuffer(null);
+//                mCamera.stopPreview();
+//                mCamera.release();
+//                mCamera = null;
+//            }
+//            return false;
+//        } else {
+//            return super.onKeyDown(keyCode, event);
+//        }
+//    }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
@@ -271,7 +260,7 @@ public class ColorDetectorActivity extends Activity
                 mRBar.setColorProgress(color.getRed());
                 mGBar.setColorProgress(color.getGreen());
                 mBBar.setColorProgress(color.getBlue());
-                mColorHexLabel.setText("HEX #" + color.getHexCode().substring(2));
+                mColorHexLabel.setText("#" + color.getHexCode().substring(2));
                 mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
                 mInfoRGBLabel.setText("R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());

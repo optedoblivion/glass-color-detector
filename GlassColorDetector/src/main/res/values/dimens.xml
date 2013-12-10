@@ -7,11 +7,10 @@
     <dimen name="detector_viewport_width">12dp</dimen>
     <dimen name="detector_viewport_height">9dp</dimen>
 
-    <dimen name="info_square_width">185dp</dimen>
-    <dimen name="info_square_height">82dp</dimen>
+    <dimen name="info_square_height">35dp</dimen>
 
-    <dimen name="color_text_size">14sp</dimen>
-    <dimen name="color_info_text_size">14sp</dimen>
+    <dimen name="color_text_size">12sp</dimen>
+    <dimen name="color_info_text_size">12sp</dimen>
     <dimen name="color_sample_view_width">20dp</dimen>
 
     <dimen name="color_progressbar_width">100dp</dimen>
