@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
+
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
@@ -25,10 +26,7 @@ import java.util.List;
 /**
  * ColorDetectorActivity
  * <p/>
- * TODO: Abstract the camera stuff a bit more
- * TODO: fix this code, it got a bit messy.
- * <p/>
- * <p/>
+ * Main activity for showing the camera and color detection UI
  * <p/>
  *
  * @see {@link android.app.Activity}
@@ -39,7 +37,7 @@ public class ColorDetectorActivity extends Activity
         implements TextureView.SurfaceTextureListener, Camera.PreviewCallback, View.OnTouchListener {
 
     // Constants
-    private static final String LOG_TAG = "ColorDetectorActivity";
+    private static final String TAG = "ColorDetectorActivity";
 
     // Members
     private static Handler mHandler = new Handler(Looper.getMainLooper());
@@ -55,6 +53,7 @@ public class ColorDetectorActivity extends Activity
 
     // Views
     private TextureView mTextureView = null;
+    private SurfaceTexture mSurfaceTexture = null;
     private ColorProgressBar mRBar = null;
     private ColorProgressBar mGBar = null;
     private ColorProgressBar mBBar = null;
@@ -115,6 +114,19 @@ public class ColorDetectorActivity extends Activity
                 }
             }
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (mSurfaceTexture != null) {
+            startPreview(mSurfaceTexture);
+        }
+
+    }
+
+    public void onPause() {
+        stopPreview();
+        super.onPause();
     }
 
     private String getColorName(int r, int g, int b) {
@@ -181,8 +193,8 @@ public class ColorDetectorActivity extends Activity
                 Camera.Parameters p = mCamera.getParameters();
                 p = setCameraParametersForPreview(p);
                 mPreviewSize = p.getPreviewSize();
-                Log.d(LOG_TAG, "mPreviewSize.width: " + mPreviewSize.width);
-                Log.d(LOG_TAG, "mPreviewSize.height: " + mPreviewSize.height);
+                Log.d(TAG, "mPreviewSize.width: " + mPreviewSize.width);
+                Log.d(TAG, "mPreviewSize.height: " + mPreviewSize.height);
                 mExpectedBytes = mPreviewSize.width * mPreviewSize.height * 3 / 2;
                 ColorAnalyzerUtil.FRAME_WIDTH = mPreviewSize.width;
                 ColorAnalyzerUtil.FRAME_HEIGHT = mPreviewSize.height;
@@ -211,24 +223,32 @@ public class ColorDetectorActivity extends Activity
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        Log.i(TAG, "SurfaceTexture available!");
+        mSurfaceTexture = surface;
         stopPreview();
         startPreview(surface);
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+        Log.i(TAG, "SurfaceTexture changed!");
+        mSurfaceTexture = surface;
         stopPreview();
         startPreview(surface);
     }
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        Log.i(TAG, "SurfaceTexture destroyed!");
+        mSurfaceTexture = surface;
         stopPreview();
         return true;
     }
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        mSurfaceTexture = surface;
+        Log.i(TAG, "SurfaceTexture updated!");
     }
 
     @Override
