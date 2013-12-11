@@ -21,26 +21,38 @@ public class ColorAnalyzerUtil {
      * @return {@link com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil.RGBColor}
      */
     public static RGBColor getAverageColor(byte[] yuv, int x1, int y1, int x2, int y2) {
-        int i = (x2 - x1) * (y2 - y1);
-        i /= 10;
+
+        // Set variables
+        int i = 0;
         int j = 0;
         int k = 0;
         int m = 0;
-        int n = x1;
 
-        for (int i1 = y1; i1 < y2; i1++) {
-            int i2 = getColorAtPoint(yuv, n, i1);
-            j += Color.red(i2);
-            k += Color.green(i2);
-            m += Color.blue(i2);
-            if (n >= x2) {
-                return new RGBColor(j / i, k / i, m / i);
-            } else {
-                n++;
+        // Gather pixel data for the square
+        for (int i1 = x1; i1 <= x2; i1++) {
+            for (int i2 = y1; i2 < y2; i2++) {
+                int color = getColorAtPoint(yuv, i1, i2);
+                j += Color.red(color);
+                k += Color.green(color);
+                m += Color.blue(color);
+                i++;
             }
         }
 
-        return new RGBColor(j / i, k / i, m / i);
+        // Average data
+        j = j / i;
+        k = k / i;
+        m = m / i;
+
+        // Normalize data
+        j = (j > 255) ? 255 : j;
+        j = (j < 0) ? 0 : j;
+        k = (k > 255) ? 255 : k;
+        k = (k < 0) ? 0 : k;
+        m = (m > 255) ? 255 : m;
+        m = (m < 0) ? 0 : m;
+
+        return new RGBColor(j, k, m);
     }
 
     /**
