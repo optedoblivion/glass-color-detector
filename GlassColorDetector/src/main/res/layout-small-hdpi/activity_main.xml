@@ -80,8 +80,8 @@
             android:id="@+id/v_sample"
             android:layout_width="@dimen/color_sample_view_width"
             android:layout_height="@dimen/color_sample_view_width"
-            android:layout_margin="@dimen/child_element_margin"/>
-            <!--android:background="@color/yellow"/> -->
+            android:layout_margin="@dimen/child_element_margin" />
+            <!-- android:background="@color/yellow"/> -->
 
         <TextView
             android:id="@+id/tv_color_name"
@@ -91,8 +91,8 @@
             android:gravity="left|center_vertical"
             android:visibility="visible"
             android:layout_weight="0.3"
-            style="@style/ColorDetector.Color.Text.Info.Name"/>
-            <!--android:text="@string/sample_color"/> -->
+            style="@style/ColorDetector.Color.Text.Info.Name" />
+            <!-- android:text="@string/sample_color"/> -->
 
         <TextView
             android:id="@+id/tv_color_hex"
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:gravity="center"
-            style="@style/ColorDetector.Color.Text.Info"/>
+            style="@style/ColorDetector.Color.Text.Info" />
             <!-- android:text="HEX #FFFFFFFF"/> -->
 
         <TextView
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
             android:gravity="center"
-            style="@style/ColorDetector.Color.Text.Info"/>
+            style="@style/ColorDetector.Color.Text.Info" />
             <!-- android:text="R:255 G:255 B:255"/> -->
 
     </LinearLayout>
