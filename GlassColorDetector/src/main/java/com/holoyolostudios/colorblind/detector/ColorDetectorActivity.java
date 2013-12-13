@@ -10,6 +10,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -38,6 +41,32 @@ public class ColorDetectorActivity extends Activity
 
     // Constants
     private static final String TAG = "ColorDetectorActivity";
+
+    // White balance options
+    /*
+        White Balance Mode 'auto' available!
+        White Balance Mode 'daylight' available!
+        White Balance Mode 'cloudy-daylight' available!
+        White Balance Mode 'tungsten' available!
+        White Balance Mode 'fluorescent' available!
+        White Balance Mode 'incandescent' available!
+        White Balance Mode 'horizon' available!
+        White Balance Mode 'sunset' available!
+        White Balance Mode 'shade' available!
+        White Balance Mode 'twilight' available!
+        White Balance Mode 'warm-fluorescent' available!
+    */
+    private static final String WB_AUTO = "auto";
+    private static final String WB_DAYLIGHT = "daylight";
+    private static final String WB_CLOUDY = "cloudy-daylight";
+    private static final String WB_TUNGSTEN = "tungsten";
+    private static final String WB_FLUORESCENT = "fluorescent";
+    private static final String WB_INCANDESCENT = "incandescent";
+    private static final String WB_HORIZON = "horizon";
+    private static final String WB_SUNSET = "sunset";
+    private static final String WB_SHADE = "shade";
+    private static final String WB_TWILIGHT = "twilight";
+    private static final String WB_WARM = "warm-fluorescent";
 
     // Members
     private static Handler mHandler = new Handler(Looper.getMainLooper());
@@ -139,7 +168,6 @@ public class ColorDetectorActivity extends Activity
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.i("TEST", "Event: " + event.getAction());
         return true;
     }
 
@@ -187,6 +215,10 @@ public class ColorDetectorActivity extends Activity
         if (mCamera == null) {
             // Rear-facing camera only
             mCamera = Camera.open();
+            List<String> whiteBalances = mCamera.getParameters().getSupportedWhiteBalance();
+            for (String wb : whiteBalances) {
+                Log.i("CAMERA", "White Balance Mode '" + wb + "' available!");
+            }
         }
         try {
             if (mCamera != null && surface != null) {
@@ -260,8 +292,14 @@ public class ColorDetectorActivity extends Activity
                 mCamera.release();
                 mCamera = null;
             }
+            // Need to propogate
             return false;
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+            openOptionsMenu();
+            // Don't need to propogate
+            return true;
         } else {
+            // Let super deal with it
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -283,6 +321,72 @@ public class ColorDetectorActivity extends Activity
             }
         });
         camera.addCallbackBuffer(PREVIEW_BUFFER);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_white_balance, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem wbMiAuto = menu.findItem(R.id.wb_mi_auto);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setWhiteBalance(String whiteBalance) {
+        if (mCamera != null) {
+            Camera.Parameters params = mCamera.getParameters();
+            params.setWhiteBalance(whiteBalance);
+            mCamera.setParameters(params);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.wb_mi_auto:
+                setWhiteBalance(WB_AUTO);
+                break;
+            case R.id.wb_mi_daylight:
+                setWhiteBalance(WB_DAYLIGHT);
+                break;
+            case R.id.wb_mi_cloudy:
+                setWhiteBalance(WB_CLOUDY);
+                break;
+            case R.id.wb_mi_tungsten:
+                setWhiteBalance(WB_TUNGSTEN);
+                break;
+            case R.id.wb_mi_fluorescent:
+                setWhiteBalance(WB_FLUORESCENT);
+                break;
+            case R.id.wb_mi_incandescent:
+                setWhiteBalance(WB_INCANDESCENT);
+                break;
+            case R.id.wb_mi_horizon:
+                setWhiteBalance(WB_HORIZON);
+                break;
+            case R.id.wb_mi_sunset:
+                setWhiteBalance(WB_SUNSET);
+                break;
+            case R.id.wb_mi_shade:
+                setWhiteBalance(WB_SHADE);
+                break;
+            case R.id.wb_mi_twilight:
+                setWhiteBalance(WB_TWILIGHT);
+                break;
+            case R.id.wb_mi_warm:
+                setWhiteBalance(WB_WARM);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        invalidateOptionsMenu();
+        return true;
     }
 
 }

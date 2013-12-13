@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/wb_mi_auto"
+        android:title="@string/wb_auto"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_daylight"
+        android:title="@string/wb_daylight"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_cloudy"
+        android:title="@string/wb_cloudy"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_tungsten"
+        android:title="@string/wb_tungsten"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_fluorescent"
+        android:title="@string/wb_fluorescent"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_incandescent"
+        android:title="@string/wb_incandescent"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_horizon"
+        android:title="@string/wb_horizon"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_sunset"
+        android:title="@string/wb_sunset"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_shade"
+        android:title="@string/wb_shade"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_twilight"
+        android:title="@string/wb_twilight"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+    <item
+        android:id="@+id/wb_mi_warm"
+        android:title="@string/wb_warm"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+</menu>
