@@ -65,53 +65,68 @@
         android:background="@color/transparent_gray"
         android:visibility="invisible"/>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/grp_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/info_square_height"
         android:padding="@dimen/border_margin"
-        android:layout_margin="0dp"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:background="@color/transparent_gray"
-        android:orientation="horizontal"
-        android:weightSum="0.9">
+        android:orientation="horizontal">
 
         <View
             android:id="@+id/v_sample"
+            android:layout_centerVertical="true"
             android:layout_width="@dimen/color_sample_view_width"
             android:layout_height="@dimen/color_sample_view_width"
-            android:layout_margin="@dimen/child_element_margin" />
-            <!-- android:background="@color/yellow"/> -->
+            android:layout_margin="@dimen/child_element_margin"/>
+        <!-- android:background="@color/yellow"/> -->
 
-        <TextView
-            android:id="@+id/tv_color_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_marginLeft="@dimen/child_element_margin"
-            android:gravity="left|center_vertical"
-            android:visibility="visible"
-            android:layout_weight="0.3"
-            style="@style/ColorDetector.Color.Text.Info.Name" />
-            <!-- android:text="@string/sample_color"/> -->
+            android:layout_toRightOf="@id/v_sample"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_color_hex"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            style="@style/ColorDetector.Color.Text.Info" />
-            <!-- android:text="HEX #FFFFFFFF"/> -->
+            <TextView
+                android:id="@+id/tv_color_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:gravity="left|center_vertical"
+                android:layout_weight="1"
+                style="@style/ColorDetector.Color.Text.Info.Name"/>
 
-        <TextView
-            android:id="@+id/tv_info_rgb"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            style="@style/ColorDetector.Color.Text.Info" />
-            <!-- android:text="R:255 G:255 B:255"/> -->
+            <TextView
+                android:id="@+id/tv_color_hex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                style="@style/ColorDetector.Color.Text.Info"/>
 
-    </LinearLayout>
+            <!--
+            <TextView
+                android:id="@+id/tv_info_rgb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                style="@style/ColorDetector.Color.Text.Info"/>
+            -->
+
+            <TextView
+                android:id="@+id/tv_wb_label"
+                style="@style/ColorDetector.Color.Text.Info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

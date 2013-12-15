@@ -5,10 +5,10 @@
 
     <dimen name="border_margin">8dp</dimen>
 
-    <dimen name="detector_viewport_width">15dp</dimen>
-    <dimen name="detector_viewport_height">12dp</dimen>
+    <dimen name="detector_viewport_width">16dp</dimen>
+    <dimen name="detector_viewport_height">9dp</dimen>
 
-    <dimen name="color_text_size">14sp</dimen>
-    <dimen name="color_info_text_size">14sp</dimen>
+    <dimen name="color_text_size">12sp</dimen>
+    <dimen name="color_info_text_size">12sp</dimen>
 
 </resources>

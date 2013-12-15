@@ -99,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:gravity="center"
+            android:gravity="left|center_vertical"
             style="@style/ColorDetector.Color.Text.Info"/>
             <!-- android:text="HEX #FFFFFFFF"/> -->
 

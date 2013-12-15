@@ -1,9 +1,11 @@
 package com.holoyolostudios.colorblind.detector;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +20,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
 import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
@@ -37,12 +41,13 @@ import java.util.List;
  * @see {@link android.hardware.Camera.PreviewCallback}
  */
 public class ColorDetectorActivity extends Activity
-        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback, View.OnTouchListener {
+        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback,
+        GestureDetector.BaseListener, GestureDetector.ScrollListener, GestureDetector.FingerListener {
 
     // Constants
     private static final String TAG = "ColorDetectorActivity";
 
-    // White balance options
+    // White balance options available for Google Glass as of XE11
     /*
         White Balance Mode 'auto' available!
         White Balance Mode 'daylight' available!
@@ -68,6 +73,20 @@ public class ColorDetectorActivity extends Activity
     private static final String WB_TWILIGHT = "twilight";
     private static final String WB_WARM = "warm-fluorescent";
 
+    private static final String[] WHITE_BALANCE_LIST = {
+            WB_AUTO,
+            WB_DAYLIGHT,
+            WB_CLOUDY,
+            WB_TUNGSTEN,
+            WB_FLUORESCENT,
+            WB_INCANDESCENT,
+            WB_HORIZON,
+            WB_SUNSET,
+            WB_SHADE,
+            WB_TWILIGHT,
+            WB_WARM
+    };
+
     // Members
     private static Handler mHandler = new Handler(Looper.getMainLooper());
     private ColorNameCache mColorNameCacheInstance = ColorNameCache.getInstance();
@@ -79,6 +98,9 @@ public class ColorDetectorActivity extends Activity
     private int mHalfHeight = 0;
     private boolean mFlashTorchSupported = false;
     private boolean mFlashTorchActive = false;
+    private AudioManager mAudioManager = null;
+    private GestureDetector mGestureDetector = null;
+    private int mWhiteBalanceIndex = 0;
 
     // Views
     private TextureView mTextureView = null;
@@ -92,16 +114,22 @@ public class ColorDetectorActivity extends Activity
     private View mSampleView = null;
     private FlashButton mBtnFlashTorch = null;
     private View mViewPort = null;
+    private TextView mWhiteBalanceLabel = null;
+
+    // Flags
+    private boolean mIsPreviewing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
+
 
         // Setup the views
         mTextureView = (TextureView) findViewById(R.id.tv_camera_preview);
         mTextureView.setSurfaceTextureListener(this);
-        mTextureView.setOnTouchListener(this);
 
         // Progress bars
         mRBar = (ColorProgressBar) findViewById(R.id.cpb_r);
@@ -121,6 +149,7 @@ public class ColorDetectorActivity extends Activity
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
         mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
         mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
+        mWhiteBalanceLabel = (TextView) findViewById(R.id.tv_wb_label);
 
         // Flash torch button
         mBtnFlashTorch = (FlashButton) findViewById(R.id.btn_flash_torch);
@@ -145,6 +174,23 @@ public class ColorDetectorActivity extends Activity
         });
     }
 
+    private void setWhiteBalanceLabelText() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                String wbName = WHITE_BALANCE_LIST[mWhiteBalanceIndex];
+                char[] chars = wbName.toCharArray();
+                StringBuilder wbNameBuilder = new StringBuilder();
+                String charStr = String.valueOf(chars[0]);
+                wbNameBuilder.append(charStr.toUpperCase());
+                for (int i = 1; i < chars.length; i++) {
+                    wbNameBuilder.append(chars[i]);
+                }
+                mWhiteBalanceLabel.setText(wbNameBuilder.toString());
+            }
+        });
+    }
+
     public void onResume() {
         super.onResume();
         if (mSurfaceTexture != null) {
@@ -164,11 +210,6 @@ public class ColorDetectorActivity extends Activity
             colorName = mColorNameCacheInstance.getColorName(r, g, b);
         }
         return colorName;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
     }
 
     private Camera.Parameters setCameraParametersForPreview(Camera.Parameters params) {
@@ -215,10 +256,10 @@ public class ColorDetectorActivity extends Activity
         if (mCamera == null) {
             // Rear-facing camera only
             mCamera = Camera.open();
-            List<String> whiteBalances = mCamera.getParameters().getSupportedWhiteBalance();
-            for (String wb : whiteBalances) {
-                Log.i("CAMERA", "White Balance Mode '" + wb + "' available!");
-            }
+//            List<String> whiteBalances = mCamera.getParameters().getSupportedWhiteBalance();
+//            for (String wb : whiteBalances) {
+//                Log.i("CAMERA", "White Balance Mode '" + wb + "' available!");
+//            }
         }
         try {
             if (mCamera != null && surface != null) {
@@ -236,8 +277,10 @@ public class ColorDetectorActivity extends Activity
                 mCamera.setPreviewCallbackWithBuffer(this);
                 PREVIEW_BUFFER = new byte[mExpectedBytes];
                 mCamera.addCallbackBuffer(PREVIEW_BUFFER);
+                setWhiteBalanceLabelText();
                 mCamera.setPreviewTexture(surface);
                 mCamera.startPreview();
+                mIsPreviewing = true;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -250,6 +293,7 @@ public class ColorDetectorActivity extends Activity
             mCamera.setPreviewCallbackWithBuffer(null);
             mCamera.release();
             mCamera = null;
+            mIsPreviewing = false;
         }
     }
 
@@ -286,18 +330,13 @@ public class ColorDetectorActivity extends Activity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_CAMERA) {
-            if (mCamera != null) {
-                mCamera.setPreviewCallbackWithBuffer(null);
-                mCamera.stopPreview();
-                mCamera.release();
-                mCamera = null;
-            }
+            stopPreview();
             // Need to propogate
             return false;
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-            openOptionsMenu();
-            // Don't need to propogate
-            return true;
+//        } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+//            openOptionsMenu();
+//            // Don't need to propogate
+//            return true;
         } else {
             // Let super deal with it
             return super.onKeyDown(keyCode, event);
@@ -316,7 +355,7 @@ public class ColorDetectorActivity extends Activity
                 mBBar.setColorProgress(color.getBlue());
                 mColorHexLabel.setText("#" + color.getHexCode().substring(2).toUpperCase());
                 mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
-                mInfoRGBLabel.setText("R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue());
+//                mInfoRGBLabel.setText("R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());
             }
         });
@@ -342,6 +381,7 @@ public class ColorDetectorActivity extends Activity
             Camera.Parameters params = mCamera.getParameters();
             params.setWhiteBalance(whiteBalance);
             mCamera.setParameters(params);
+            setWhiteBalanceLabelText();
         }
     }
 
@@ -389,4 +429,101 @@ public class ColorDetectorActivity extends Activity
         return true;
     }
 
+    @Override
+    public boolean onGesture(Gesture gesture) {
+        if (gesture == Gesture.TAP) {
+            playClickSoundEffect();
+            if (mIsPreviewing) {
+                stopPreview();
+            } else {
+                startPreview(mSurfaceTexture);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private void setLastWhiteBalance() {
+        // Decrement
+        mWhiteBalanceIndex--;
+
+        // Normalize
+        if (mWhiteBalanceIndex < 0) {
+            mWhiteBalanceIndex = 0;
+            playClickSoundEffect();
+        } else {
+            playNavigationLeft();
+        }
+
+        // Set the white balance
+        setWhiteBalance(WHITE_BALANCE_LIST[mWhiteBalanceIndex]);
+    }
+
+    private void setNextWhiteBalance() {
+        // Increment
+        mWhiteBalanceIndex++;
+
+        // Normalize
+        if (mWhiteBalanceIndex >= WHITE_BALANCE_LIST.length) {
+            mWhiteBalanceIndex = WHITE_BALANCE_LIST.length - 1;
+            playClickSoundEffect();
+        } else {
+            playNavigationRight();
+        }
+
+        // Set the white balance
+        setWhiteBalance(WHITE_BALANCE_LIST[mWhiteBalanceIndex]);
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        return mGestureDetector != null && mGestureDetector.onMotionEvent(event);
+    }
+
+    /**
+     * Play the click sound effect. Use whenever a menu item is clicked.
+     */
+    private void playClickSoundEffect() {
+        mAudioManager.playSoundEffect(AudioManager.FX_KEY_CLICK);
+    }
+
+    private void playNavigationLeft() {
+        mAudioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_LEFT);
+    }
+
+    private void playNavigationRight() {
+        mAudioManager.playSoundEffect(AudioManager.FX_FOCUS_NAVIGATION_RIGHT);
+    }
+
+    private float mLastDistance = 0;
+    private int mThresholdDistance = 150;
+
+    @Override
+    public boolean onScroll(float distance, float delta, float velocity) {
+        if (!mIsPreviewing) {
+            return false;
+        }
+        if (distance > 0) {
+            if (distance - mLastDistance > mThresholdDistance) {
+                // Scroll Right
+                setNextWhiteBalance();
+                mLastDistance = distance;
+            }
+        } else if (distance < 0) {
+            if (distance - mLastDistance < -mThresholdDistance) {
+                // Scroll Left
+                setLastWhiteBalance();
+                mLastDistance = distance;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onFingerCountChanged(int previewCount, int currentCount) {
+        if (currentCount == 0) {
+            mLastDistance = 0;
+        }
+    }
 }
