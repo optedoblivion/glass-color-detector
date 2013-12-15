@@ -1,4 +1,4 @@
-package com.holoyolostudios.colorblind.detector.view;
+package com.holoyolostudios.colordetector.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,7 +6,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.holoyolostudios.colorblind.detector.R;
+import com.holoyolostudios.colordetector.R;
 
 /**
  * ColorProgressBar

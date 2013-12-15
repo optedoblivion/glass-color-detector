@@ -1,4 +1,4 @@
-package com.holoyolostudios.colorblind.detector.util;
+package com.holoyolostudios.colordetector.util;
 
 import android.graphics.Color;
 
@@ -18,7 +18,7 @@ public class ColorAnalyzerUtil {
      * @param y1  {@link java.lang.Integer}
      * @param x2  {@link java.lang.Integer}
      * @param y2  {@link java.lang.Integer}
-     * @return {@link com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil.RGBColor}
+     * @return {@link com.holoyolostudios.colordetector.util.ColorAnalyzerUtil.RGBColor}
      */
     public static RGBColor getAverageColor(byte[] yuv, int x1, int y1, int x2, int y2) {
 

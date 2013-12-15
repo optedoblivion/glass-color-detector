@@ -1,4 +1,4 @@
-package com.holoyolostudios.colorblind.detector;
+package com.holoyolostudios.colordetector;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,10 +22,10 @@ import android.widget.TextView;
 
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
-import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
-import com.holoyolostudios.colorblind.detector.util.ColorAnalyzerUtil;
-import com.holoyolostudios.colorblind.detector.view.ColorProgressBar;
-import com.holoyolostudios.colorblind.detector.view.FlashButton;
+import com.holoyolostudios.colordetector.colors.ColorNameCache;
+import com.holoyolostudios.colordetector.util.ColorAnalyzerUtil;
+import com.holoyolostudios.colordetector.view.ColorProgressBar;
+import com.holoyolostudios.colordetector.view.FlashButton;
 
 import java.io.IOException;
 import java.util.List;

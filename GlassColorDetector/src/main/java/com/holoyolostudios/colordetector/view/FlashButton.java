@@ -1,9 +1,9 @@
-package com.holoyolostudios.colorblind.detector.view;
+package com.holoyolostudios.colordetector.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
-import com.holoyolostudios.colorblind.detector.R;
+import com.holoyolostudios.colordetector.R;
 
 public class FlashButton extends ImageButton {
 

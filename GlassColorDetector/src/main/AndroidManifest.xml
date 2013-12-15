@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.holoyolostudios.colorblind.detector"
+          package="com.holoyolostudios.colordetector"
           android:versionCode="1"
           android:versionName="1.0">
 
@@ -18,14 +18,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".ColorDetectorApplication"
+        android:name="com.holoyolostudios.colordetector.ColorDetectorApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ColorDetectorActivity"
+            android:name="com.holoyolostudios.colordetector.ColorDetectorActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape">

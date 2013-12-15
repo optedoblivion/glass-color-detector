@@ -1,4 +1,4 @@
-package com.holoyolostudios.colorblind.detector.colors;
+package com.holoyolostudios.colordetector.colors;
 
 import android.util.Log;
 
@@ -26,10 +26,10 @@ public class ColorNameCache {
     }
 
     /**
-     * Create a new instance of {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}.<br/>
+     * Create a new instance of {@link com.holoyolostudios.colordetector.colors.ColorNameCache}.<br/>
      * Throws an {@link java.lang.IllegalStateException} if an instance has already been initialized.
      *
-     * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
+     * @return {@link com.holoyolostudios.colordetector.colors.ColorNameCache}
      */
     public static ColorNameCache createInstance() {
         if (mInstance == null) {
@@ -40,10 +40,10 @@ public class ColorNameCache {
     }
 
     /**
-     * Get an existing {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance.
+     * Get an existing {@link com.holoyolostudios.colordetector.colors.ColorNameCache} instance.
      * Throws an {@link java.lang.IllegalStateException} if an instance hasn't been created yet.
      *
-     * @return {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache}
+     * @return {@link com.holoyolostudios.colordetector.colors.ColorNameCache}
      */
     public static ColorNameCache getInstance() {
         if (mInstance == null) {
@@ -53,7 +53,7 @@ public class ColorNameCache {
     }
 
     /**
-     * Destroy the {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance
+     * Destroy the {@link com.holoyolostudios.colordetector.colors.ColorNameCache} instance
      */
     public void destroy() {
         mInitialized = false;
@@ -61,7 +61,7 @@ public class ColorNameCache {
     }
 
     /**
-     * Check whether or not the {@link com.holoyolostudios.colorblind.detector.colors.ColorNameCache} instance
+     * Check whether or not the {@link com.holoyolostudios.colordetector.colors.ColorNameCache} instance
      * has been initialized.
      *
      * @return {@link boolean}

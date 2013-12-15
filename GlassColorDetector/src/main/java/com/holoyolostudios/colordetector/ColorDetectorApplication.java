@@ -1,7 +1,7 @@
-package com.holoyolostudios.colorblind.detector;
+package com.holoyolostudios.colordetector;
 
 import android.app.Application;
-import com.holoyolostudios.colorblind.detector.colors.ColorNameCache;
+import com.holoyolostudios.colordetector.colors.ColorNameCache;
 
 /**
  * Application instance

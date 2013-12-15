@@ -53,7 +53,7 @@
 
     </LinearLayout>
 
-    <com.holoyolostudios.colorblind.detector.view.FlashButton
+    <com.holoyolostudios.colordetector.view.FlashButton
         android:id="@+id/btn_flash_torch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
