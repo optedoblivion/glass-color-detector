@@ -27,7 +27,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_margin="0dp"
-        android:padding="@dimen/border_margin"
+        android:paddingTop="@dimen/border_margin"
+        android:paddingBottom="@dimen/border_margin"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:background="@color/transparent_gray">
 
         <include
@@ -74,37 +77,52 @@
         android:background="@color/transparent_gray"
         android:orientation="horizontal">
 
-        <View
-            android:id="@+id/v_sample"
-            android:layout_centerVertical="true"
-            android:layout_width="@dimen/color_sample_view_width"
-            android:layout_height="@dimen/color_sample_view_width"
-            android:layout_margin="@dimen/child_element_margin"/>
-        <!-- android:background="@color/yellow"/> -->
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_marginLeft="@dimen/child_element_margin"
-            android:layout_toRightOf="@id/v_sample"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_color_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:gravity="left|center_vertical"
+            <RelativeLayout
                 android:layout_weight="1"
-                style="@style/ColorDetector.Color.Text.Info.Name"/>
+                android:gravity="left|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/v_sample"
+                    android:background="@android:color/holo_blue_light"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/color_sample_view_width"
+                    android:layout_height="@dimen/color_sample_view_width"
+                    android:layout_margin="@dimen/child_element_margin"/>
+
+                <TextView
+                    android:id="@+id/tv_color_name"
+                    android:layout_toRightOf="@id/v_sample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_centerVertical="true"
+                    android:gravity="left|center_vertical"
+                    android:text="Holo Blue"
+                    style="@style/ColorDetector.Color.Text.Info.Name"/>
+
+            </RelativeLayout>
+
 
             <TextView
                 android:id="@+id/tv_color_hex"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="left|center_vertical"
+                android:gravity="center"
+                android:text="#f0f0f0"
                 style="@style/ColorDetector.Color.Text.Info"/>
 
             <!--
@@ -121,8 +139,9 @@
                 android:id="@+id/tv_wb_label"
                 style="@style/ColorDetector.Color.Text.Info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/wb_auto"
                 android:layout_weight="1"/>
 
         </LinearLayout>

@@ -8,6 +8,13 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="19"/>
 
+
+    <!-- permissions -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <!-- Features -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -16,11 +23,7 @@
         android:name="android.hardware.camera.autofocus"
         android:required="true"/>
 
-    <!-- Camera Access -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <!-- App level -->
     <application
         android:name=".ColorDetectorApplication"
         android:allowBackup="true"
@@ -28,23 +31,29 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
+        <!-- Main single instance activity -->
         <activity
             android:name=".ColorDetectorActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER"/>
             </intent-filter>
+
             <meta-data
                 android:name="com.google.android.glass.VoiceTrigger"
                 android:resource="@xml/voice_trigger"/>
+
         </activity>
 
     </application>
+    <!-- End App Level -->
 
 </manifest>

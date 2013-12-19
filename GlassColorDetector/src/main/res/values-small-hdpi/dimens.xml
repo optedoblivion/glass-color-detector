@@ -5,7 +5,7 @@
 
     <dimen name="border_margin">8dp</dimen>
 
-    <dimen name="detector_viewport_width">16dp</dimen>
+    <dimen name="detector_viewport_width">9dp</dimen>
     <dimen name="detector_viewport_height">9dp</dimen>
 
     <dimen name="color_text_size">12sp</dimen>

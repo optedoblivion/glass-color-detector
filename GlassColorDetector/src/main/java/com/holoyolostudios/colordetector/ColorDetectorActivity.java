@@ -153,6 +153,8 @@ public class ColorDetectorActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        registerReceiver(mTakePictureReciever, mIntentFilter);
+
         mIntentFilter.addAction(ACTION_TAKE_PICTURE);
         mIntentFilter.addAction(ACTION_TAKE_PICTURE_FROM_SCREEN_OFF);
 
@@ -232,7 +234,6 @@ public class ColorDetectorActivity extends Activity
 
     public void onResume() {
         super.onResume();
-        registerReceiver(mTakePictureReciever, mIntentFilter);
         if (mSurfaceTexture != null) {
             startPreview(mSurfaceTexture);
         }
@@ -240,8 +241,12 @@ public class ColorDetectorActivity extends Activity
 
     public void onPause() {
         stopPreview();
-        unregisterReceiver(mTakePictureReciever);
         super.onPause();
+    }
+
+    public void onDestroy() {
+        unregisterReceiver(mTakePictureReciever);
+        super.onDestroy();
     }
 
     private String getColorName(int r, int g, int b) {
