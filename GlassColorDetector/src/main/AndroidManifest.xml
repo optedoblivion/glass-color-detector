@@ -9,8 +9,12 @@
         android:targetSdkVersion="19"/>
 
     <!-- Features -->
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="true"/>
 
     <!-- Camera Access -->
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -18,14 +22,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name="com.holoyolostudios.colordetector.ColorDetectorApplication"
+        android:name=".ColorDetectorApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.holoyolostudios.colordetector.ColorDetectorActivity"
+            android:name=".ColorDetectorActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape">

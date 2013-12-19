@@ -1,7 +1,10 @@
 package com.holoyolostudios.colordetector;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -73,6 +76,10 @@ public class ColorDetectorActivity extends Activity
     private static final String WB_TWILIGHT = "twilight";
     private static final String WB_WARM = "warm-fluorescent";
 
+    // Intent actions
+    private static final String ACTION_TAKE_PICTURE = "com.google.glass.action.TAKE_PICTURE";
+    private static final String ACTION_TAKE_PICTURE_FROM_SCREEN_OFF = "com.google.glass.action.TAKE_PICTURE_FROM_SCREEN_OFF";
+
     private static final String[] WHITE_BALANCE_LIST = {
             WB_AUTO,
             WB_DAYLIGHT,
@@ -102,6 +109,29 @@ public class ColorDetectorActivity extends Activity
     private GestureDetector mGestureDetector = null;
     private int mWhiteBalanceIndex = 0;
 
+    // Intent Members
+    private IntentFilter mIntentFilter = new IntentFilter();
+    private BroadcastReceiver mTakePictureReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.i("ColorDetectorActivity", "onRecieve(" + context + ", " + intent + ")");
+
+            // Glass specific
+            // [TODO][MSB]: Make work on all devices at some point
+            // This combats the winking a picture while app is running which was introduced with XE12
+            if (intent != null) {
+                Log.i("ColorDetectorActivity", "\tIntent Action: " + intent.getAction());
+                String action = intent.getAction();
+                if (action != null && action.length() > 0) {
+                    if (action.equals(ACTION_TAKE_PICTURE)) {
+                        stopPreview();
+                    }
+                }
+            }
+        }
+    };
+
     // Views
     private TextureView mTextureView = null;
     private SurfaceTexture mSurfaceTexture = null;
@@ -122,6 +152,10 @@ public class ColorDetectorActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mIntentFilter.addAction(ACTION_TAKE_PICTURE);
+        mIntentFilter.addAction(ACTION_TAKE_PICTURE_FROM_SCREEN_OFF);
+
         setContentView(R.layout.activity_main);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
@@ -174,6 +208,11 @@ public class ColorDetectorActivity extends Activity
         });
     }
 
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i("ColorDetectorActivity", "New Intent");
+    }
+
     private void setWhiteBalanceLabelText() {
         mHandler.post(new Runnable() {
             @Override
@@ -193,14 +232,15 @@ public class ColorDetectorActivity extends Activity
 
     public void onResume() {
         super.onResume();
+        registerReceiver(mTakePictureReciever, mIntentFilter);
         if (mSurfaceTexture != null) {
             startPreview(mSurfaceTexture);
         }
-
     }
 
     public void onPause() {
         stopPreview();
+        unregisterReceiver(mTakePictureReciever);
         super.onPause();
     }
 
@@ -252,14 +292,23 @@ public class ColorDetectorActivity extends Activity
         return params;
     }
 
+    private void listAllWhiteBalances() {
+        if (mCamera != null) {
+            List<String> whiteBalances = mCamera.getParameters().getSupportedWhiteBalance();
+            for (String wb : whiteBalances) {
+                Log.i("CAMERA", "White Balance Mode '" + wb + "' available!");
+            }
+        }
+    }
+
     private void startPreview(SurfaceTexture surface) {
         if (mCamera == null) {
             // Rear-facing camera only
             mCamera = Camera.open();
-//            List<String> whiteBalances = mCamera.getParameters().getSupportedWhiteBalance();
-//            for (String wb : whiteBalances) {
-//                Log.i("CAMERA", "White Balance Mode '" + wb + "' available!");
-//            }
+
+            // [DEBUG][MSB]: This is used to list all white balances
+            //listAllWhiteBalanaces();
+
         }
         try {
             if (mCamera != null && surface != null) {
@@ -324,7 +373,6 @@ public class ColorDetectorActivity extends Activity
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
         mSurfaceTexture = surface;
-        Log.i(TAG, "SurfaceTexture updated!");
     }
 
     @Override
