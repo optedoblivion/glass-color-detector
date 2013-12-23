@@ -3,7 +3,7 @@
 
     <!-- Global Application Strings -->
     <string name="app_name">Color Detector</string>
-    <string name="glass_voice_trigger">Read color</string>
+    <string name="glass_voice_trigger">Scan color</string>
     <string name="sample_color">Color</string>
 
     <!-- White Balance Modes -->

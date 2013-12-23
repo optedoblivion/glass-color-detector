@@ -9,6 +9,7 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,11 +23,13 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.holoyolostudios.colordetector.colors.ColorNameCache;
 import com.holoyolostudios.colordetector.util.ColorAnalyzerUtil;
+import com.holoyolostudios.colordetector.util.TrialPeriodManager;
 import com.holoyolostudios.colordetector.view.ColorProgressBar;
 import com.holoyolostudios.colordetector.view.FlashButton;
 
@@ -39,6 +42,7 @@ import java.util.List;
  * Main activity for showing the camera and color detection UI
  * <p/>
  *
+ * @author Martin Brabham
  * @see {@link android.app.Activity}
  * @see {@link android.view.TextureView.SurfaceTextureListener}
  * @see {@link android.hardware.Camera.PreviewCallback}
@@ -152,6 +156,15 @@ public class ColorDetectorActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        long now = System.currentTimeMillis() / 1000;
+        if (now > TrialPeriodManager.EXPIRATION_TIMESTAMP) {
+            Toast.makeText(this, "Trial period has expired!", Toast.LENGTH_LONG).show();
+            Uri packageURI = Uri.fromParts("package", "com.holoyolostudios.colordetector", null);
+            Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+            startActivity(uninstallIntent);
+            finish();
+        }
 
         registerReceiver(mTakePictureReciever, mIntentFilter);
 

@@ -13,6 +13,9 @@ import com.holoyolostudios.colordetector.R;
  * <p/>
  * Layout to display a label and progress bar
  * <p/>
+ *
+ * @author Martin Brabham
+ * @see {@link android.widget.RelativeLayout}
  */
 public class ColorProgressBar extends RelativeLayout {
 

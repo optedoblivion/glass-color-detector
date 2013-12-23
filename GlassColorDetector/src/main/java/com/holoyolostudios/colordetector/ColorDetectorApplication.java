@@ -1,10 +1,17 @@
 package com.holoyolostudios.colordetector;
 
 import android.app.Application;
+
 import com.holoyolostudios.colordetector.colors.ColorNameCache;
 
 /**
- * Application instance
+ * ColorDetectorApplication
+ * <p/>
+ * Main application instance
+ * <p/>
+ *
+ * @author Martin Brabham
+ * @see {@link android.app.Application}
  */
 public class ColorDetectorApplication extends Application {
 
@@ -14,6 +21,7 @@ public class ColorDetectorApplication extends Application {
 
         // Create a new instance for the ColorNameCache
         ColorNameCache.createInstance();
+
     }
 
 }

@@ -1,12 +1,27 @@
+import java.text.SimpleDateFormat
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
+
 apply plugin: 'android'
+
+def buildDate() {
+    def df = new SimpleDateFormat("yyyyMMdd")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
 
 repositories {
     mavenCentral()
@@ -17,22 +32,45 @@ dependencies {
 }
 
 android {
+
+    def versionMajor = 0
+    def versionMinor = 0
+    def versionPatch = 1
+    def versionBuild = 1
+
     compileSdkVersion "Google Inc.:Glass Development Kit Sneak Peek:15"
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        versionCode 20131121
-        versionName "1.0"
+        versionCode versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         minSdkVersion 15
         targetSdkVersion 15
+
+        buildConfigField "String", "BUILD_DATE", "\"${buildDate()}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
     }
+
+    signingConfigs {
+
+        release {
+            storeFile file('holoyolostudios.keystore')
+            storePassword "f@gp1r3"
+            keyAlias "GlassColorDetector"
+            keyPassword "f@gp1r3"
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
-            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
+            signingConfig signingConfigs.release
         }
     }
+
     productFlavors {
         defaultFlavor {
             proguardFile 'proguard-rules.txt'

@@ -5,7 +5,12 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * ColorNameCache singleton
+ * ColorNameCache
+ * <p/>
+ * Singleton instance for deriving human readable color names from provided RGB values
+ * <p/>
+ *
+ * @author Daniel Velazco
  */
 public class ColorNameCache {
 
@@ -223,9 +228,9 @@ public class ColorNameCache {
          * Constructor
          *
          * @param name {@link String}
-         * @param r {@link int}
-         * @param g {@link int}
-         * @param b {@link int}
+         * @param r    {@link int}
+         * @param g    {@link int}
+         * @param b    {@link int}
          */
         public ColorName(String name, int r, int g, int b) {
             this.mmColorName = name;
@@ -276,7 +281,6 @@ public class ColorNameCache {
          * @param pixR {@link int}
          * @param pixG {@link int}
          * @param pixB {@link int}
-         *
          * @return {@link int} proximity
          */
         public double computeMSE(int pixR, int pixG, int pixB) {

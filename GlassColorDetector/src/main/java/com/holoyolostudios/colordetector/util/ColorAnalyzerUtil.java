@@ -4,9 +4,15 @@ import android.graphics.Color;
 
 /**
  * ColorAnalyzerUtil
+ * <p/>
+ * Utility to handle detecting and averaging color from YUV data
+ * <p/>
+ *
+ * @author Martin Brabham
  */
 public class ColorAnalyzerUtil {
 
+    // Constants
     public static int FRAME_WIDTH = 640;
     public static int FRAME_HEIGHT = 480;
 
@@ -83,7 +89,12 @@ public class ColorAnalyzerUtil {
     }
 
     /**
-     * A color representation
+     * RGBColor
+     * <p/>
+     * Represents a color of a pixel
+     * <p/>
+     *
+     * @author Martin Brabham
      */
     public static class RGBColor {
 
@@ -121,30 +132,65 @@ public class ColorAnalyzerUtil {
             mBlue = b;
         }
 
+        /**
+         * Get data of a single pixel
+         *
+         * @return {@link java.lang.Integer}
+         */
         public int getPixel() {
             return Color.rgb(mRed, mGreen, mBlue);
         }
 
+        /**
+         * Get the alpha
+         *
+         * @return {@link java.lang.Integer}
+         */
         public int getAlpha() {
             return mAlpha;
         }
 
+        /**
+         * Get the Red
+         *
+         * @return {@link java.lang.Integer}
+         */
         public int getRed() {
             return mRed;
         }
 
+        /**
+         * Get the Green
+         *
+         * @return {@link java.lang.Integer}
+         */
         public int getGreen() {
             return mGreen;
         }
 
+        /**
+         * Get the Blue
+         *
+         * @return {@link java.lang.Integer}
+         */
         public int getBlue() {
             return mBlue;
         }
 
+        /**
+         * Get the color name
+         *
+         * @return {@link java.lang.String}
+         */
         public String getName() {
             return mColorName;
         }
 
+        /**
+         * Get the hex code representation of the RGB
+         *
+         * @return {@link java.lang.String}
+         */
         public String getHexCode() {
             if (mHexCode == null) {
                 mHexCode = String.format("%06x", getPixel());
