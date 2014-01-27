@@ -25,7 +25,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
 import com.holoyolostudios.colordetector.colors.ColorNameCache;
 import com.holoyolostudios.colordetector.util.ColorAnalyzerUtil;
@@ -47,9 +46,8 @@ import java.util.List;
  * @see {@link android.view.TextureView.SurfaceTextureListener}
  * @see {@link android.hardware.Camera.PreviewCallback}
  */
-public class ColorDetectorActivity extends Activity
-        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback,
-        GestureDetector.BaseListener, GestureDetector.ScrollListener, GestureDetector.FingerListener {
+public class PhoneColorDetectorActivity extends Activity
+        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback {
 
     // Constants
     private static final String TAG = "ColorDetectorActivity";
@@ -173,7 +171,7 @@ public class ColorDetectorActivity extends Activity
 
         setContentView(R.layout.activity_main);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
+//        mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
 
         // Setup the views
         mTextureView = (TextureView) findViewById(R.id.tv_camera_preview);
@@ -494,20 +492,20 @@ public class ColorDetectorActivity extends Activity
         return true;
     }
 
-    @Override
-    public boolean onGesture(Gesture gesture) {
-        if (gesture == Gesture.TAP) {
-            playClickSoundEffect();
-            if (mIsPreviewing) {
-                stopPreview();
-            } else {
-                startPreview(mSurfaceTexture);
-            }
-            return true;
-        }
-
-        return false;
-    }
+//    @Override
+//    public boolean onGesture(Gesture gesture) {
+//        if (gesture == Gesture.TAP) {
+//            playClickSoundEffect();
+//            if (mIsPreviewing) {
+//                stopPreview();
+//            } else {
+//                startPreview(mSurfaceTexture);
+//            }
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     private void setLastWhiteBalance() {
         // Decrement
@@ -564,31 +562,31 @@ public class ColorDetectorActivity extends Activity
     private float mLastDistance = 0;
     private int mThresholdDistance = 150;
 
-    @Override
-    public boolean onScroll(float distance, float delta, float velocity) {
-        if (!mIsPreviewing) {
-            return false;
-        }
-        if (distance > 0) {
-            if (distance - mLastDistance > mThresholdDistance) {
-                // Scroll Right
-                setNextWhiteBalance();
-                mLastDistance = distance;
-            }
-        } else if (distance < 0) {
-            if (distance - mLastDistance < -mThresholdDistance) {
-                // Scroll Left
-                setLastWhiteBalance();
-                mLastDistance = distance;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onFingerCountChanged(int previewCount, int currentCount) {
-        if (currentCount == 0) {
-            mLastDistance = 0;
-        }
-    }
+//    @Override
+//    public boolean onScroll(float distance, float delta, float velocity) {
+//        if (!mIsPreviewing) {
+//            return false;
+//        }
+//        if (distance > 0) {
+//            if (distance - mLastDistance > mThresholdDistance) {
+//                // Scroll Right
+//                setNextWhiteBalance();
+//                mLastDistance = distance;
+//            }
+//        } else if (distance < 0) {
+//            if (distance - mLastDistance < -mThresholdDistance) {
+//                // Scroll Left
+//                setLastWhiteBalance();
+//                mLastDistance = distance;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    @Override
+//    public void onFingerCountChanged(int previewCount, int currentCount) {
+//        if (currentCount == 0) {
+//            mLastDistance = 0;
+//        }
+//    }
 }
