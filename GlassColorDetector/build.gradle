@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.8.+'
     }
 }
 
@@ -40,7 +40,7 @@ android {
     def versionBuild = 1
 
     compileSdkVersion "Google Inc.:Glass Development Kit Sneak Peek:15"
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.0.1"
 
     defaultConfig {
         versionCode versionBuild
@@ -65,7 +65,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             debuggable false
             signingConfig signingConfigs.release
