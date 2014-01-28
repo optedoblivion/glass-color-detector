@@ -9,7 +9,6 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,12 +22,10 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.glass.touchpad.GestureDetector;
 import com.holoyolostudios.colordetector.colors.ColorNameCache;
 import com.holoyolostudios.colordetector.util.ColorAnalyzerUtil;
-import com.holoyolostudios.colordetector.util.TrialPeriodManager;
 import com.holoyolostudios.colordetector.view.ColorProgressBar;
 import com.holoyolostudios.colordetector.view.FlashButton;
 
@@ -144,15 +141,6 @@ public class PhoneColorDetectorActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long now = System.currentTimeMillis() / 1000;
-        if (now > TrialPeriodManager.EXPIRATION_TIMESTAMP) {
-            Toast.makeText(this, "Trial period has expired!", Toast.LENGTH_LONG).show();
-            Uri packageURI = Uri.fromParts("package", "com.holoyolostudios.colordetector", null);
-            Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-            startActivity(uninstallIntent);
-            finish();
-        }
-
         registerReceiver(mTakePictureReciever, mIntentFilter);
 
         mIntentFilter.addAction(ACTION_TAKE_PICTURE);
@@ -160,7 +148,6 @@ public class PhoneColorDetectorActivity extends Activity
 
         setContentView(R.layout.activity_main);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//        mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
 
         // Setup the views
         mTextureView = (TextureView) findViewById(R.id.tv_camera_preview);
