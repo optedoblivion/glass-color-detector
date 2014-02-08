@@ -1,4 +1,4 @@
-package com.holoyolostudios.colordetector.util;
+package com.holoyolostudios.colorvision.util;
 
 import android.content.Context;
 
@@ -29,7 +29,7 @@ public class TrialPeriodManager {
      * Create a new static instance
      *
      * @param context {@link android.content.Context}
-     * @return {@link com.holoyolostudios.colordetector.util.TrialPeriodManager}
+     * @return {@link com.holoyolostudios.colorvision.util.TrialPeriodManager}
      */
     public static TrialPeriodManager createInstance(Context context) {
         if (sInstance == null) {

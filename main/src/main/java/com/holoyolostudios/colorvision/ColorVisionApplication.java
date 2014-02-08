@@ -1,11 +1,11 @@
-package com.holoyolostudios.colordetector;
+package com.holoyolostudios.colorvision;
 
 import android.app.Application;
 
-import com.holoyolostudios.colordetector.colors.ColorNameCache;
+import com.holoyolostudios.colorvision.colors.ColorNameCache;
 
 /**
- * ColorDetectorApplication
+ * ColorVisionApplication
  * <p/>
  * Main application instance
  * <p/>
@@ -13,7 +13,7 @@ import com.holoyolostudios.colordetector.colors.ColorNameCache;
  * @author Martin Brabham
  * @see {@link android.app.Application}
  */
-public class ColorDetectorApplication extends Application {
+public class ColorVisionApplication extends Application {
 
     @Override
     public void onCreate() {
@@ -22,6 +22,11 @@ public class ColorDetectorApplication extends Application {
         // Create a new instance for the ColorNameCache
         ColorNameCache.createInstance();
 
+    }
+
+    public void onTerminate() {
+        ColorNameCache.getInstance().destroy();
+        super.onTerminate();
     }
 
 }

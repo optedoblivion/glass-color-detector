@@ -1,0 +1,344 @@
+white,white,#ffffff,0,0,100
+white,white smoke,#f5f5f5
+white,ghost white,#f8f8ff,240,3,100
+white,baby powder,#fefefa,60,2,100
+white,snow,#fffafa,0,2,100
+white,ivory,#fffff0,60,6,100
+white,floral white,#fffaf0,40,6,100
+white,seashell,#fff5ee,25,7,100
+white,cornsilk,#fff8dc,48,14,100
+white,old lace,#fdf5e6,39,9,99
+white,cream,#fffdd0,57,18,100
+white,beige,#f5f5dc,60,10,96
+white,linen,#faf0e6,30,8,98
+white,antique white,#faebd7,34,14,98
+white,champagne,#f7e7c3,37,17,97
+white,eggshell,#f0ead6,46,11,94
+white,dutch white,#efdfbb,42,22,94
+white,bone,#e3dac9,39,11,89
+white,vanilla,#f3e5ab,48,30,95
+white,flax,#eedc82,50,45,93
+white,navajo white,#ffdead,36,32,100
+white,ecru,#c2b280,45,34,76
+black,black,#000000,-,-,0
+black,midnight blue,#191970,240,78,44
+black,ebony,#555d50,97,14,37
+black,taupe,#483c32,30,17,34
+black,charcoal,#36454f,204,31,31
+black,outer space,#414a4c,191,15,30
+black,cafe noir,#4b3621,30,56,29
+black,black bean,#3d0c02,10,97,24
+black,black olive,#3b3c36,70,10,24
+black,onyx,#353839,195,7,22
+black,phthalo green,#123524,151,66,21
+black,jet,#343434,-,0,20
+black,black leather jacket,#253529,135,30,21
+black,charleston green,#232b2b,180,19,17
+black,eerie black,#1b1b1b,--,0,11
+black,licorice,#1a1110,6,39,10
+gray,dark slate gray,#2f4f4f
+gray,light slate gray,#778899
+achromatic gray,gainsboro,#dcdcdc,--,0,86
+achromatic gray,light gray,#d3d3d3,--. 0 83
+achromatic gray,silver,#c0c0c0,--,0,75
+achromatic gray,medium gray,#bebebe,--,0,75
+achromatic gray,dark medium gray,#a9a9a9,--,0,66
+achromatic gray,spanish gray,#989898,--,0,60
+achromatic gray,gray,#808080,--,0,50
+achromatic gray,dim gray,#696969,--,0,41
+achromatic gray,davy's gray,#555555,-,0,33
+off gray,platinum,#b2beb5,135,6,75
+off gray,battleship gray,#848482,60,2,52
+cool gray,cool gray,#8c92ac,229,19,68
+cool gray,cadet gray,#91a3b0,205,18,69
+cool gray,blue-gray,#6699cc,210,50,80
+cool gray,glaucos,#6082b6,216,47,71
+cool gray,slate gray,#708090,210,22,56
+warm gray,puce,#722f37,353,59,45
+warm gray,rose quartz,#aa98a9,330,12,50
+warm gray,cinereous,#98817b,12,19,60
+warm gray,rocket metallic,#8a7f8d,287,10,55
+pink,coral,#ff7f50
+pink,dark magenta,#8b008b
+pink,dark orchid,#9932cc
+pink,dark salmon,#e9967a
+pink,deep pink,#ff1493
+pink,fuchsia,#ff00ff
+pink,light coral,#f08080
+pink,light pink,#ffb6c1
+pink,light salmon,#ffa07a
+pink,medium orchid,#ba55d3
+pink,orchid,#da70d6
+pink,peach puff,#ffdab9
+pink,salmon,#fa8072
+pink,hot magenta,#ff1dce
+pink,pink,#ffc0cb,350,100,88
+pink,hot pink,#ff69b4,330,59,100
+pink,deep pink,#ff69b4,330,59,100
+pink,champagne pink,#f1ddcf,25,14,95
+pink,pink lace,#ffddf4,319,13,100
+pink,piggy pink,#fddde6,343,13,99
+pink,pale pink,#f9ccca,3,19,98
+pink,baby pink,#f3c2c2,0,20,96
+pink,spanish pink,#f7bfbe,1,23,97
+pink,cameo pink,#efbbcc,340,22,94
+pink,orchid pink,#f2bdcd,322,22,95
+pink,cherry blossom pink,#ffb7c5,350,100,84
+pink,light hot pink,#ffb3de,324,30,100
+pink,lavendar pink,#fbaed2,332,31,98
+pink,cotton candy,#ffbcd9,334,26,100
+pink,carnation pink,#ffa6c9,330,100,80
+pink,baker-miller pink,#ff91af,344,43,100
+pink,tickle me pink,#fc89ac,342,46,99
+pink,amaranth pink,#f19cbb,338,33,78
+pink,charm pink,#e68fac,340,38,90
+pink,china pink,#de6fa1,333,50,87
+pink,tango pink,#e4717a,355,50,89
+pink,congo pink,#f88379,5,51,97
+pink,pastel pink,#dea5a4,1,26,87
+pink,new york pink,#d7837f,3,41,84
+pink,solid pink,#893843,352,49,54
+pink,silver pink,#c4aead,3,12,77
+pink,queen pink,#e8ccd7,336,12,91
+pink,pink lavender,#d8b2d1,311,18,85
+pink,mountbatten pink,#997a8d,-,-,-
+pink,pink (pantone),#d74894,328,67,84
+pink,mexican pink,#e4007c,-,-,-
+pink,barbie pink,#e0218a,327,85,88
+pink,fandango pink,#de5285,342,63,87
+pink,paradise pink,#e63e62,347,73,90
+pink,brink pink,#fb607f,333,88,80
+pink,french pink,#fd6c9e,339,57,99
+pink,bright pink,#ff007f,-,-,-
+pink,persian pink,#f77fbe,329,49,97
+pink,light deep pink,#ff5ccd,218,64,100
+pink,ultra pink,#ff6fff,300,48,83
+pink,shocking pink,#fc0fc0,315,94,99
+pink,super pink,#cf6ba9,323,48,81
+pink,steel pink,#cc33cc,300,75,80
+red,indian red,#cd5c5c
+red,indigo,#4b0082
+red,misty rose,#ffe4e1
+red,orange red,#ff4500
+red,red,#ff0000
+red,imperial red,#ed2939
+red,spanish red,#e60026
+red,desire,#ea3c53
+red,ruby,#e62020
+red,crimson,#dc143c
+red,rusty red,#da2c43
+red,cardinal red,#c41e3a
+red,cornell red,#b31b1b
+red,fire brick,#b22222
+red,redwood,#a45a52
+red,OU crimson red,#990000
+red,dark red,#8b0000
+red,maroon,#800000
+red,barn red,#7c0a02
+brown,wheat,#f5deb3
+brown,bisque,#ffe4c4
+brown,blanched almond,#ffebcd
+brown,brown,#a52a2a
+brown,burly wood,#deb887
+brown,chocolate,#d2691e
+brown,dark khaki,#bdb76b
+brown,khaki,#f0e68c
+brown,moccasin,#ffe4b5
+brown,olive drab,#6b8e23
+brown,saddle brown,#8b4513
+brown,sienna,#a0522d
+brown,brown,#964b00
+brown,beaver,#9f8170
+brown,beige,#f5f5dc
+brown,buff,#f0dc82
+brown,burnt umber,#8a3324
+brown,chestnut,#954535
+brown,desert sand,#edc9af
+brown,khaki,#c3b091
+brown,kobicha,#6b4423
+brown,peru,#cd853f
+brown,raw umber,#826644
+brown,rosy brown,#bc8f8f
+brown,russet,#80461b
+brown,sandy brown,#f4a460
+brown,smokey topaz,#832a0d
+brown,tan,#d2b48c
+brown,taupe,#483c32
+brown,wood brown,#c19a6b
+orange,traditional orange,#ff7f00
+orange,orange,#ffa500
+orange,dark orange,#ff8c00
+orange,papaya whip,#ffefd5
+orange,peach,#ffe5b4
+orange,apricot,#fbceb1
+orange,melon,#fdbcb4
+orange,atomic tangerine,#ff9966
+orange,tea rose,#f88379
+orange,carrot orange,#ed9121
+orange,orange peel,#ff9f00
+orange,princeton orange,#f58025
+orange,spanish orange,#e86100
+orange,pumpkin,#ff7518
+orange,giants orange,#fe5a1d
+orange,vermillion,#e34234
+orange,tomato,#ff6347
+orange,bittersweet,#fe6f5e
+orange,persimmon,#ec5800
+orange,persian orange,#d99058
+orange,alloy orange,#c46310
+orange,burnt orange,#cc5500
+orange,bittersweet shimmer,#bf4f51
+yellow,dark golden rod,#b8860b
+yellow,lemon chiffon,#fffacd
+yellow,light golden rod yellow,#fafad2
+yellow,light yellow,#ffffe0
+yellow,pale golden rod,#eee8aa
+yellow,yellow,#ffff00
+yellow,light yellow,#ffffed
+yellow,cream,#ffffcc
+yellow,unmellow yellow,#ffff66
+yellow,lemon,#ffacd
+yellow,mellow yellow,#f8de7e
+yellow,royal yellow,#fada5e
+yellow,gold,#ffd700
+yellow,cyber yellow,#ffd300
+yellow,safety yellow,#edd202
+yellow,goldenrod,#daa520
+yellow,olive,#808000
+green,mint cream,#f5fffa
+green,chartreuse,#7fff00
+green,dark olive green,#556b2f
+green,dark sea green,#8fbc8f
+green,dark turquoise,#00ced1
+green,honey dew,#f0fff0
+green,lawn green,#7cfc00
+green,lime green,#32cd32
+green,lime,#00ff00
+green,medium sea green,#3cb371
+green,medium spring green,#00fa9a
+green,medium turquoise,#48d1cc
+green,pale turquoise,#afeeee
+green,spring green,#00ff7f
+green,yellow green,#9acd32
+green,artichoke,#8f9779
+green,asparagus,#87a96b
+green,avocado,#568203
+green,fern green,#71bc78
+green,forest green,#228b22
+green,hooker's green,#49796b
+green,jungle green,#29ab87
+green,laurel green,#a9ba9d
+green,light green,#90ee90
+green,mantis,#74c365
+green,moss green,#8a9a58
+green,myrtle green,#317873
+green,mint green,#98fb98
+green,pine green,#01796f
+green,shamrock green,#009e60
+green,teal,#008080
+green,dark green,#006400
+green,bright green,#66ff00
+green,brunswick green,#1b4d3e
+green,cal poly pomona green,#1e4d2b
+green,dark pastel green,#03c03c
+green,dartmouth green,#00703c
+green,emerald,#50c878
+green,feldgrau,#4d5d53
+green,go green,#00ab66
+green,yellow-green,#adff2f
+green,harlequin,#3fff00
+green,hunter green,#355e3b
+green,india green,#138808
+green,islamic green,#009900
+green,jade,#00a86b
+green,kelly green,#4cbb17
+green,malachite,0bda51
+green,msu green,#18453b
+green,north texas green,#002779
+green,office green,#008000
+green,pakistan green,#006600
+green,paris green,#50c878
+green,persian green,#00a693
+green,rifle green,#444c38
+green,russian green,#679267
+green,sacramento state green,#00563f
+green,sea green,#2e8b57
+green,spanish green,#009150
+cyan,cyan,#00ffff
+cyan,light cyan,#e0ffff
+cyan,aero blue,#c9ffe5
+cyan,celeste,#b2ffff
+cyan,electric blue,#7df9ff
+cyan,turquoise,#40e0d0
+cyan,robin egg blue,#00cccc
+cyan,light sea green,#20b2aa
+cyan,blue-green,#0d98ba
+cyan,keppel,#3ab09e
+cyan,cerulean,#007ba7
+cyan,dark cyan,#008b8b
+cyan,midnight green,#004953
+cyan,charleston green,#232b2b
+cyan,aquamarine,#7fffd4
+cyan,medium aqua marine,#66cdaa
+blue,alice blue,#f0f8ff
+blue,azure,#f0ffff
+blue,blue violet,#8a2be2
+blue,cadet blue,#5f9ea0
+blue,cornflower blue,#6495ed
+blue,dark slate blue,#483d8b
+blue,deep sky blue,#00bfff
+blue,dodger blue,#1e90ff
+blue,light sky blue,#87cefa
+blue,light steel blue,#b0c4de
+blue,medium slate blue,#7b68ee
+blue,royal blue,#4169e1
+blue,sky blue,#87ceeb
+blue,slate blue,#6a5acd
+blue,steel blue,#4682b4
+blue,blue,#0000ff
+blue,periwinkle,#ccccff
+blue,powder blue,#b0e0e6
+blue,light blue,#add8e6
+blue,baby blue,#89cff0
+blue,crayola blue,#1f75fe
+blue,medium blue,#0000cd
+blue,spanish blue,#0070bb
+blue,liberty,#545aa7
+blue,egyption blue,#1034a6
+blue,dark blue,#00008b
+blue,electric ultramarine,#3f00ff
+blue,resolution blue,#002387
+blue,navy blue,#000080
+blue,catalina blue,#062a78
+blue,midnight blue,#191970
+blue,independence,#4c516d
+blue,space cadet,$1d2951
+purple,purple,#800080
+purple,tyrian purple,#66023c
+purple,royal purple,#7851a9
+purple,red-violet,#c71585
+purple,thistle,#d8bfd8
+purple,mauve,#e0b0ff
+purple,orchid,#da70d6
+purple,heliotrope,#df73ff
+purple,phlox,#df00ff
+purple,purple pizzazz,#fe4eda
+purple,liseran purple,#de6fa1
+purple,mulberry,#c54b8c
+purple,pearly purple,#b768a2
+purple,purpureus,#9a4eae
+purple,ksu purple,#512888
+purple,pomp and power,#86608e
+purple,mardi gras,#880095
+purple,eminence,#6c3082
+purple,byzantium,#702963
+purple,pansy,#78184a
+purple,dark violet,#9400d3
+purple,lavender blush,#fff0f5
+purple,lavender,#e6e6fa
+purple,medium purple,#9370db
+purple,medium violet red,#c71585
+purple,pale violet red,#db7093
+purple,plum,#dda0dd
+purple,purple,#800080
+purple,violet,#ee82ee

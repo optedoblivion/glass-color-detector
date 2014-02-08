@@ -1,4 +1,4 @@
-package com.holoyolostudios.colordetector;
+package com.holoyolostudios.colorvision;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -27,17 +27,17 @@ import android.widget.Toast;
 
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
-import com.holoyolostudios.colordetector.colors.ColorNameCache;
-import com.holoyolostudios.colordetector.util.ColorAnalyzerUtil;
-import com.holoyolostudios.colordetector.util.TrialPeriodManager;
-import com.holoyolostudios.colordetector.view.ColorProgressBar;
-import com.holoyolostudios.colordetector.view.FlashButton;
+import com.holoyolostudios.colorvision.colors.ColorNameCache;
+import com.holoyolostudios.colorvision.util.ColorAnalyzerUtil;
+import com.holoyolostudios.colorvision.util.TrialPeriodManager;
+import com.holoyolostudios.colorvision.view.ColorProgressBar;
+import com.holoyolostudios.colorvision.view.FlashButton;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- * ColorDetectorActivity
+ * ColorVisionActivity
  * <p/>
  * Main activity for showing the camera and color detection UI
  * <p/>
@@ -47,12 +47,12 @@ import java.util.List;
  * @see {@link android.view.TextureView.SurfaceTextureListener}
  * @see {@link android.hardware.Camera.PreviewCallback}
  */
-public class ColorDetectorActivity extends Activity
+public class ColorVisionActivity extends Activity
         implements TextureView.SurfaceTextureListener, Camera.PreviewCallback,
         GestureDetector.BaseListener, GestureDetector.ScrollListener, GestureDetector.FingerListener {
 
     // Constants
-    private static final String TAG = "ColorDetectorActivity";
+    private static final String TAG = "ColorVisionActivity";
 
     // White balance options available for Google Glass as of XE11
     /*
@@ -119,13 +119,13 @@ public class ColorDetectorActivity extends Activity
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.i("ColorDetectorActivity", "onRecieve(" + context + ", " + intent + ")");
+            Log.i("ColorVisionActivity", "onRecieve(" + context + ", " + intent + ")");
 
             // Glass specific
             // [TODO][MSB]: Make work on all devices at some point
             // This combats the winking a picture while app is running which was introduced with XE12
             if (intent != null) {
-                Log.i("ColorDetectorActivity", "\tIntent Action: " + intent.getAction());
+                Log.i("ColorVisionActivity", "\tIntent Action: " + intent.getAction());
                 String action = intent.getAction();
                 if (action != null && action.length() > 0) {
                     if (action.equals(ACTION_TAKE_PICTURE)) {
@@ -160,7 +160,7 @@ public class ColorDetectorActivity extends Activity
         long now = System.currentTimeMillis() / 1000;
         if (now > TrialPeriodManager.EXPIRATION_TIMESTAMP) {
             Toast.makeText(this, "Trial period has expired!", Toast.LENGTH_LONG).show();
-            Uri packageURI = Uri.fromParts("package", "com.holoyolostudios.colordetector", null);
+            Uri packageURI = Uri.fromParts("package", "com.holoyolostudios.colorvision", null);
             Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
             startActivity(uninstallIntent);
             finish();
@@ -224,7 +224,7 @@ public class ColorDetectorActivity extends Activity
 
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.i("ColorDetectorActivity", "New Intent");
+        Log.i("ColorVisionActivity", "New Intent");
     }
 
     private void setWhiteBalanceLabelText() {

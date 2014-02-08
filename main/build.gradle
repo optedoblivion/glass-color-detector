@@ -49,11 +49,18 @@ android {
         minSdkVersion 15
         targetSdkVersion 15
 
+        testPackageName "com.holoyolostudios.colorvision.test"
+        testInstrumentationRunner "com.holoyolostudios.colorvision.test.Runner"
+
         buildConfigField "String", "BUILD_DATE", "\"${buildDate()}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
     }
 
     signingConfigs {
+
+        debug {
+            storeFile file('debug.keystore')
+        }
 
         release {
             storeFile file('holoyolostudios.keystore')
@@ -64,12 +71,29 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            runProguard false
+            debuggable true
+            signingConfig signingConfigs.debug
+            packageNameSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+        }
+
         release {
             runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             debuggable false
             signingConfig signingConfigs.release
         }
+
+
+    }
+
+    applicationVariants.all { variant ->
+        def file = variant.outputFile
+        variant.outputFile = new File(file.parent, file.name.replace(".apk", "-"
+                + defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk"))
     }
 
     productFlavors {
@@ -77,4 +101,5 @@ android {
             proguardFile 'proguard-rules.txt'
         }
     }
+
 }
