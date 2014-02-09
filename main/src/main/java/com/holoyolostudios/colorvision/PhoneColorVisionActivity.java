@@ -484,21 +484,6 @@ public class PhoneColorVisionActivity extends Activity
         return true;
     }
 
-//    @Override
-//    public boolean onGesture(Gesture gesture) {
-//        if (gesture == Gesture.TAP) {
-//            playClickSoundEffect();
-//            if (mIsPreviewing) {
-//                stopPreview();
-//            } else {
-//                startPreview(mSurfaceTexture);
-//            }
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     private void setLastWhiteBalance() {
         // Decrement
         mWhiteBalanceIndex--;
@@ -563,10 +548,9 @@ public class PhoneColorVisionActivity extends Activity
             case MotionEvent.ACTION_MOVE:
                 if (mIsTouching) {
 
-                    // If y distance has strayed then cancel touch
                     float ydiff = mLastY - event.getY();
-                    if (Math.abs(ydiff) > 100) {
-//                        mIsTouching = false;
+                    if (Math.abs(ydiff) > 500) {
+                        sHandler.removeCallbacks(mOnClickRunnable);
                     }
 
                     // Calculate the difference
@@ -606,31 +590,4 @@ public class PhoneColorVisionActivity extends Activity
         return super.onTouchEvent(event);
     }
 
-//    @Override
-//    public boolean onScroll(float distance, float delta, float velocity) {
-//        if (!mIsPreviewing) {
-//            return false;
-//        }
-//        if (distance > 0) {
-//            if (distance - mLastDistance > mThresholdDistance) {
-//                // Scroll Right
-//                setNextWhiteBalance();
-//                mLastDistance = distance;
-//            }
-//        } else if (distance < 0) {
-//            if (distance - mLastDistance < -mThresholdDistance) {
-//                // Scroll Left
-//                setLastWhiteBalance();
-//                mLastDistance = distance;
-//            }
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public void onFingerCountChanged(int previewCount, int currentCount) {
-//        if (currentCount == 0) {
-//            mLastDistance = 0;
-//        }
-//    }
 }
