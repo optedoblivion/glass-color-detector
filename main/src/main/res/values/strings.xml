@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Global Application Strings -->
-    <string name="app_name">Color Detector</string>
+    <string name="app_name">Color Vision</string>
     <string name="glass_voice_trigger">Scan color</string>
     <string name="sample_color">Color</string>
 
