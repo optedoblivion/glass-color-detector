@@ -1,0 +1,102 @@
+import java.text.SimpleDateFormat
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.8.+'
+    }
+}
+
+apply plugin: 'android'
+
+def buildDate() {
+    def df = new SimpleDateFormat("yyyyMMdd")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+    df.setTimeZone(TimeZone.getTimeZone("UTC"))
+    return df.format(new Date())
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.android.support:support-v13:18.0.+'
+    compile files('libs/libGoogleAnalyticsServices.jar')
+}
+
+android {
+
+    def versionMajor = 0
+    def versionMinor = 0
+    def versionPatch = 1
+    def versionBuild = 2
+
+    compileSdkVersion "Google Inc.:Glass Development Kit Sneak Peek:15"
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        versionCode versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        minSdkVersion 15
+        targetSdkVersion 15
+
+        testPackageName "com.holoyolostudios.colorvision.test"
+        testInstrumentationRunner "com.holoyolostudios.colorvision.test.Runner"
+
+        buildConfigField "String", "BUILD_DATE", "\"${buildDate()}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+    }
+
+    signingConfigs {
+
+        debug {
+            storeFile file('debug.keystore')
+        }
+
+        release {
+        }
+
+    }
+
+    buildTypes {
+
+        debug {
+            runProguard false
+            debuggable true
+            signingConfig signingConfigs.debug
+            packageNameSuffix ".debug"
+            versionNameSuffix "-DEBUG"
+        }
+
+        release {
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+
+
+    }
+
+    applicationVariants.all { variant ->
+        def file = variant.outputFile
+        variant.outputFile = new File(file.parent, file.name.replace(".apk", "-"
+                + defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk"))
+    }
+
+    productFlavors {
+        defaultFlavor {
+            proguardFile 'proguard-rules.txt'
+        }
+    }
+
+}
