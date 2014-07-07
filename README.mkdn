@@ -1,0 +1,4 @@
+Color Vision is an application geared toward helping color blind people
+communicate color to non colorblind people.  It is also useful for 
+artists and color sampling.  Future goal is to implement full pallete support
+with sharing capabilities.
