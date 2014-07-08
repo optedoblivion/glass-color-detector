@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Global Application Strings -->
+    <string name="sample_color">Color</string>
+
+    <!-- White Balance Modes -->
+    <string name="wb_auto">Auto</string>
+    <string name="wb_daylight">Daylight</string>
+    <string name="wb_cloudy">Cloudy</string>
+    <string name="wb_tungsten">Tungsten</string>
+    <string name="wb_fluorescent">Fluorescent</string>
+    <string name="wb_incandescent">Incandescent</string>
+    <string name="wb_horizon">Horizon</string>
+    <string name="wb_sunset">Sunset</string>
+    <string name="wb_shade">Shade</string>
+    <string name="wb_twilight">Twilight</string>
+    <string name="wb_warm">Warm</string>
+
+</resources>
