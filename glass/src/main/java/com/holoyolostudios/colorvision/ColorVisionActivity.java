@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.gesture.Gesture;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -26,6 +25,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.holoyolostudios.colorvision.colorlib.colors.ColorNameCache;
 import com.holoyolostudios.colorvision.colorlib.util.ColorAnalyzerUtil;
 import com.holoyolostudios.colorvision.colorlib.util.TrialPeriodManager;
@@ -47,8 +47,7 @@ import java.util.List;
  * @see {@link Camera.PreviewCallback}
  */
 public class ColorVisionActivity extends Activity
-        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback,
-        GestureDetector.BaseListener, GestureDetector.ScrollListener, GestureDetector.FingerListener {
+        implements TextureView.SurfaceTextureListener, Camera.PreviewCallback, GestureDetector.OnGestureListener {
 
     // Constants
     private static final String TAG = "ColorVisionActivity";
@@ -141,7 +140,6 @@ public class ColorVisionActivity extends Activity
     private ColorProgressBar mBBar = null;
     private TextView mColorNameLabel = null;
     private TextView mColorHexLabel = null;
-    private TextView mInfoRGBLabel = null;
     private View mSampleView = null;
     private View mViewPort = null;
     private TextView mWhiteBalanceLabel = null;
@@ -169,7 +167,7 @@ public class ColorVisionActivity extends Activity
 
         setContentView(R.layout.activity_main);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mGestureDetector = new GestureDetector(this).setBaseListener(this).setScrollListener(this).setFingerListener(this);
+        mGestureDetector = new GestureDetector(this, this);
 
         // Setup the views
         mTextureView = (TextureView) findViewById(R.id.tv_camera_preview);
@@ -192,7 +190,6 @@ public class ColorVisionActivity extends Activity
         // Labels
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
         mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
-//        mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
         mWhiteBalanceLabel = (TextView) findViewById(R.id.tv_wb_label);
     }
 
@@ -387,7 +384,6 @@ public class ColorVisionActivity extends Activity
                 mBBar.setColorProgress(color.getBlue());
                 mColorHexLabel.setText("#" + color.getHexCode().substring(2).toUpperCase());
                 mColorNameLabel.setText(getColorName(color.getRed(), color.getGreen(), color.getBlue()));
-//                mInfoRGBLabel.setText("R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue());
                 mSampleView.setBackgroundColor(color.getPixel());
             }
         });
@@ -461,21 +457,6 @@ public class ColorVisionActivity extends Activity
         return true;
     }
 
-    @Override
-    public boolean onGesture(Gesture gesture) {
-        if (gesture == Gesture.TAP) {
-            playClickSoundEffect();
-            if (mIsPreviewing) {
-                stopPreview();
-            } else {
-                startPreview(mSurfaceTexture);
-            }
-            return true;
-        }
-
-        return false;
-    }
-
     private void setLastWhiteBalance() {
         // Decrement
         mWhiteBalanceIndex--;
@@ -509,8 +490,8 @@ public class ColorVisionActivity extends Activity
     }
 
     @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        return mGestureDetector != null && mGestureDetector.onMotionEvent(event);
+    public boolean onTouchEvent(MotionEvent event) {
+        return mGestureDetector != null && mGestureDetector.onTouchEvent(event);
     }
 
     /**
@@ -532,30 +513,56 @@ public class ColorVisionActivity extends Activity
     private int mThresholdDistance = 150;
 
     @Override
-    public boolean onScroll(float distance, float delta, float velocity) {
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         if (!mIsPreviewing) {
             return false;
         }
-        if (distance > 0) {
-            if (distance - mLastDistance > mThresholdDistance) {
+        if (distanceX > 0) {
+            if (distanceX - mLastDistance > mThresholdDistance) {
                 // Scroll Right
                 setNextWhiteBalance();
-                mLastDistance = distance;
+                mLastDistance = distanceX;
             }
-        } else if (distance < 0) {
-            if (distance - mLastDistance < -mThresholdDistance) {
+        } else if (distanceX < 0) {
+            if (distanceX - mLastDistance < -mThresholdDistance) {
                 // Scroll Left
                 setLastWhiteBalance();
-                mLastDistance = distance;
+                mLastDistance = distanceX;
             }
         }
         return true;
     }
 
     @Override
-    public void onFingerCountChanged(int previewCount, int currentCount) {
-        if (currentCount == 0) {
-            mLastDistance = 0;
-        }
+    public boolean onDown(MotionEvent e) {
+        return false;
     }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        playClickSoundEffect();
+        if (mIsPreviewing) {
+            stopPreview();
+        } else {
+            startPreview(mSurfaceTexture);
+        }
+        mLastDistance = 0;
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
+
 }
