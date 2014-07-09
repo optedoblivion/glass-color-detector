@@ -167,19 +167,9 @@ public class ColorVisionActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long now = System.currentTimeMillis() / 1000;
-        if (now > TrialPeriodManager.EXPIRATION_TIMESTAMP) {
-            Toast.makeText(this, "Trial period has expired!", Toast.LENGTH_LONG).show();
-            Uri packageURI = Uri.fromParts("package", "com.holoyolostudios.colorvision", null);
-            Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-            startActivity(uninstallIntent);
-            finish();
-        }
-
-        registerReceiver(mTakePictureReciever, mIntentFilter);
-
         mIntentFilter.addAction(ACTION_TAKE_PICTURE);
         mIntentFilter.addAction(ACTION_TAKE_PICTURE_FROM_SCREEN_OFF);
+        registerReceiver(mTakePictureReciever, mIntentFilter);
 
         setContentView(R.layout.activity_main);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
