@@ -56,18 +56,6 @@
 
     </LinearLayout>
 
-    <com.holoyolostudios.colorvision.view.FlashButton
-        android:id="@+id/btn_flash_torch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_widget_bar"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/border_margin"
-        android:padding="@dimen/button_flash_padding"
-        android:layout_marginTop="@dimen/border_margin"
-        android:background="@color/transparent_gray"
-        android:visibility="invisible"/>
-
     <RelativeLayout
         android:id="@+id/grp_info"
         android:layout_width="match_parent"
