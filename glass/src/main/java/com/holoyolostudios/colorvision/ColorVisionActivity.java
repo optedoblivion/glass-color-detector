@@ -25,7 +25,6 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,11 +39,9 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.holoyolostudios.colorvision.colorlib.colors.ColorNameCache;
 import com.holoyolostudios.colorvision.colorlib.util.ColorAnalyzerUtil;
-import com.holoyolostudios.colorvision.colorlib.util.TrialPeriodManager;
 import com.holoyolostudios.colorvision.colorlib.view.ColorProgressBar;
 
 import java.io.IOException;

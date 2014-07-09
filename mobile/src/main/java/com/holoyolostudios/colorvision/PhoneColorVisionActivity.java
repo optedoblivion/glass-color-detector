@@ -141,7 +141,6 @@ public class PhoneColorVisionActivity extends Activity
     private ColorProgressBar mBBar = null;
     private TextView mColorNameLabel = null;
     private TextView mColorHexLabel = null;
-    private TextView mInfoRGBLabel = null;
     private View mSampleView = null;
     private FlashButton mBtnFlashTorch = null;
     private View mViewPort = null;
@@ -188,7 +187,6 @@ public class PhoneColorVisionActivity extends Activity
         // Labels
         mColorNameLabel = (TextView) findViewById(R.id.tv_color_name);
         mColorHexLabel = (TextView) findViewById(R.id.tv_color_hex);
-//        mInfoRGBLabel = (TextView) findViewById(R.id.tv_info_rgb);
         mWhiteBalanceLabel = (TextView) findViewById(R.id.tv_wb_label);
 
         // Flash torch button

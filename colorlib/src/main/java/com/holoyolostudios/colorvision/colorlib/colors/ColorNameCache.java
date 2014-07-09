@@ -564,7 +564,6 @@ public class ColorNameCache {
          * @return {@link int} proximity
          */
         public double computeMSE(int pixR, int pixG, int pixB) {
-//            return ((((pixR - r) * (pixR - r)) + ((pixG - g) * (pixG - g)) + ((pixB - b) * (pixB - b))) / 3);
 
             // Logging
             StringBuilder logMsg = new StringBuilder();
@@ -592,11 +591,6 @@ public class ColorNameCache {
             int lg = gdiff * gdiff;
             int lb = bdiff * bdiff;
 
-            // Convert to absolute values
-//            lr = Math.abs(lr);
-//            lg = Math.abs(lg);
-//            lb = Math.abs(lb);
-
             // Log rdiff^2
             logMsg.append("\n\t");
             logMsg.append("LR: ");
@@ -617,7 +611,6 @@ public class ColorNameCache {
             logMsg.append("MSE: ");
             logMsg.append(mse);
             logMsg.append("\n");
-//            Log.i("TEST", logMsg.toString());
             return mse;
         }
 
